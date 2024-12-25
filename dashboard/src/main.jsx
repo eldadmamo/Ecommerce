@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client'
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-const App = lazy(() => import('./App.jsx'))
 import store from './store/index';
+
+const App = lazy(() => import('./App.jsx'))
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>

@@ -6,7 +6,7 @@ export const authReducer = createSlice({
         successMessage: '',
         errorMessage: '',
         loader: false,
-        userInfo
+        userInfo: ''
     },
     reducers:{
 
