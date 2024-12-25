@@ -1,16 +1,13 @@
 import { useState } from 'react'
-
-
+import Router from './router/Router';
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [allRoutes, setAllRoutes] = useState([]);
+  
   return (
-      <div className="App">
-        <h1 className="text-3xl font-bold text-center underline">
-          Hello World!
-        </h1>
-      </div> 
+      <>
+      <Router allRoutes={allRoutes}/>
+      </>
   )
 }
 
