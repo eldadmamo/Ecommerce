@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 
 const Login =  lazy(() => import('../../views/auth/Login')) 
 const Register = lazy(()=> import('../../views/auth/Register'))
@@ -6,13 +6,12 @@ const Register = lazy(()=> import('../../views/auth/Register'))
 const publicRoutes = [
     {
         path: '/login',
-        element: <Login/>
+        element: <Login/>,
     },
     {
         path: '/register',
-        element: <Register />
+        element: <Register />,
     }
 ]
 
-export default publicRoutes
-;
+export default publicRoutes;
