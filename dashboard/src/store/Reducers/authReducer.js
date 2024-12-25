@@ -2,18 +2,23 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const authReducer = createSlice({
     name: 'auth',
-    initialState: {
+    initialState:{
         successMessage: '',
         errorMessage: '',
         loader: false,
-        userInfo: ''
+        userInfo
     },
-    reducers: {
+    reducers:{
 
     },
-    extraReducers:{
+    extraReducers: () => {
 
     }
 })
 
 export default authReducer.reducer
+
+
+
+
+
