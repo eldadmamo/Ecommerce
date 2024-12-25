@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 
 const Register = () => {
@@ -17,7 +18,41 @@ const Register = () => {
                         border-slate-400 bg-transparent rounded-md" type="text" name="name" 
                         placeholder="Name" id="name" required/>
                     </div>
+
+                    <div className="flex flex-col w-full gap-1 mb-3">
+                        <label htmlFor="email">Email</label>
+                        <input className="px-3 py-2 outline-none border
+                        border-slate-400 bg-transparent rounded-md" type="text" name="email" 
+                        placeholder="Email" id="email" required/>
+                    </div>
+
+                    <div className="flex flex-col w-full gap-1 mb-3">
+                        <label htmlFor="password">Password</label>
+                        <input className="px-3 py-2 outline-none border
+                        border-slate-400 bg-transparent rounded-md" type="text" name="password" 
+                        placeholder="password" id="password" required/>
+                    </div>
+                    <div className="flex items-center w-full gap-3 mb-3">
+                    <input className="w-4 h-4 text-blue-600 overflow-hidden
+                     bg-gray-200 rounded border-gray-300 focus:ring-blue-300
+                     " type="checkbox" name="checkbox" id="checkbox" />
+                    <label htmlFor="checkbox">i agree to privacy policy & terms</label>
+                    </div>
+
+                    <button className="bg-slate-800 w-full hover:shadow-blue-300 
+                    hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
+                        Sign Up
+                    </button>
+
+                    <div className="flex items-center mb-3 gap-3 justify-center">
+                        <p>Already Have an account ?  
+                            <Link className="font-bold" to="/login"
+                    > Sign In</Link> </p>
+
+                    </div>
                 </form>
+
+
              </div>
             </div>
         </div>
