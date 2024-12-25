@@ -1,10 +1,20 @@
-
+import {useEffect, useState } from "react";
 
 const App = () => {
+
+  let [data, setData] = useState();
+  
+  useEffect(() => {
+    (async()=> {
+      let response = await fetch(`https://dummyjson.com/products/1`)
+      let json = await response.json();
+      setData(json);
+    })()
+  },[])
+
   return (
-    <div>
-      <h1>Hello 1</h1>
-      <h2>Hello 2</h2>
+    <div className="container">
+      {JSON.stringify(data)}
     </div>
   );
 };
