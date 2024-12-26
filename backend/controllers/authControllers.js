@@ -2,6 +2,7 @@ const adminModel = require('../models/adminModel');
 const { responseReture } = require('../utiles/response');
 const bcrypts = require("bcrypt");
 const { createToken } = require('../utiles/tokenCreate');
+const { response } = require('express');
 
 class authControllers{
     admin_login = async (req,res) => {
@@ -31,6 +32,22 @@ class authControllers{
             }
         } catch(error){
             responseReture(res,500,{error: error.message})
+        }
+    }
+
+    getUser = async (req,res) => {
+        const {id,role} = req;
+
+        try{
+            if(role === 'admin'){
+                const user = await adminModel.findById(id)
+                responseReture(res,200, {userInfo: user}) 
+            } else {
+                console.log('Seller Info');
+            }
+
+        } catch(error){
+            console.log(error.message)
         }
     }
 }
