@@ -1,6 +1,6 @@
 import { lazy } from "react";
 
-const Home = lazy(()=> import('../../views/auth/Login'))
+const Home = lazy(()=> import('../../views/Home'))
 
 export const sellerRoutes = [
     {
@@ -8,4 +8,7 @@ export const sellerRoutes = [
         element: <Home/>,
         ability: ['admin','seller']
     },
+    {
+        
+    }
 ] 
