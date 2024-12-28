@@ -27,7 +27,7 @@ export const allNav = [
         title: 'Category',
         icon: <BiCategory />,
         role : 'admin',
-        path: '/admin/dashboard/orders'
+        path: '/admin/dashboard/category'
     },
     {
         id: 4,
