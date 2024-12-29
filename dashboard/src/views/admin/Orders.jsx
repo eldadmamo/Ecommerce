@@ -48,7 +48,7 @@ const Orders = () => {
                                 <div className="py-3 w-[18%] font-medium">Pending</div>
                                 <div className="py-3 w-[18%] font-medium">Pending</div>
                                 <div className="py-3 w-[18%] font-medium">
-                                    <Link>View</Link>
+                                    <Link to="/admin/dashboard/order/details/3">View</Link>
                                 </div>
                                 <div onClick={()=> setShow(!show)}  className="py-3 w-[8%] font-medium"><LuSquareArrowDown/></div>
                             </div>
