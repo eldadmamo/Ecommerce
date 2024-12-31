@@ -109,11 +109,11 @@ class authControllers{
                 const user = await adminModel.findById(id)
                 responseReture(res,200, {userInfo: user}) 
             } else {
-                console.log('Seller Info');
+                const seller = await sellerModel.findById(id);
+                responseReture(res,200,{userInfo: seller});
             }
-
         } catch(error){
-            console.log(error.message)
+            responseReture(res,500,{error: error.message})
         }
     }
 }

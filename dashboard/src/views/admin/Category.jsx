@@ -11,6 +11,11 @@ const Category = () => {
     const [parPage, setParPage] = useState(5)
     const [show, setShow] = useState(false);
 
+    const [state,setState] = useState({
+        name: '',
+        image:''
+    })
+
     return (
         <div className="px-2 lg:px-7 pt-5">
 
@@ -97,7 +102,7 @@ const Category = () => {
                         <form>
                             <div className="flex flex-col w-full">
                                   <label htmlFor="name">Category Name</label>
-                                  <input className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#ffffff] border border-slate-700 rounded-md text-[#000000]" type="text" id="name" name="category_name" placeholder="Category Name" />
+                                  <input onChange={(e)=>setState()} className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#ffffff] border border-slate-700 rounded-md text-[#000000]" type="text" id="name" name="category_name" placeholder="Category Name" />
                             </div>
 
                             <div>
