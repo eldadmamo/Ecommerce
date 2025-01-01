@@ -18,6 +18,8 @@ app.use(cookieParser())
 
 app.use('/api',require('./routes/authRoutes'))
 app.use('/api',require('./routes/dashboard/categoryRoute'))
+app.use('/api',require('./routes/dashboard/productRoute'))
+
 
 const port = process.env.PORT;
 dbConnect()
