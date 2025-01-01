@@ -1,5 +1,5 @@
 const formidable = require("formidable")
-const {responseReturn, responseReture} = require("../../utiles/response");
+const {responseReture} = require("../../utiles/response");
 const cloudinary = require('cloudinary').v2;
 const productModel = require('../../models/productModel')
 
@@ -46,11 +46,62 @@ class productController{
                 responseReture(res,500,{error: error.message})
             }
 
-        })
+        }) 
     }
-    get_product = async (req,res) => {
-        console.log(`product ok`)
+    products_get = async (req,res) => {
+        const {page,searchValue,parPage} = req.query;
+        const {id} = req;
+
+        const skipPage = parseInt(parPage) * (parseInt(page) - 1)
+
+        try{
+            if(searchValue){
+            const products = await productModel.find({
+                $text: {$search: searchValue},
+                sellerId: id
+                }).skip(skipPage).limit(parPage).sort({createdAt: -1})
+            const totalProduct = await productModel.find({
+                $text: {$search: searchValue},
+                sellerId: id
+                }).countDocuments()
+                responseReture(res,200,{products,totalProduct})
+            } else {
+                const products = await productModel.find({sellerId: id}).skip(skipPage)
+                    .limit(parPage).sort({createdAt: -1})
+                const totalProduct = await productModel.find({sellerId: id}).countDocuments()
+                    responseReture(res,200,{products,totalProduct})
+            }
+        }catch(error){
+            console.log(error.message)
+        }
     }
+
+    product_get = async(req,res) => {
+        const {productId} = req.params; 
+        try{
+            const product = await productModel.findById(productId)
+            responseReture(res, 200,{product})
+        } catch(error){
+            console.log(error.message)
+        }
+    }
+
+    product_update = async (req,res) => {
+        let {name,description,stock,price,discount,brand,productId} = req.body;
+        name = name.trim()
+        const slug = name.split(' ').join('-')
+
+        try{
+            await productModel.findByIdAndUpdate(productId,{
+                name,description,stock,price,discount,brand,productId,slug
+            })
+            const product = await productModel.findById(productId)
+            responseReture(res,200,{product, message:"Product Updated Successfully"})
+        } catch(error){
+            responseReture(res,500,{error:error.message})
+        }
+    }
+     
 }
 
 module.exports = new productController()
