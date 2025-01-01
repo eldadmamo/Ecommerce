@@ -5,7 +5,7 @@ import { FaEdit, FaImage, FaTrash } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 import { PropagateLoader } from "react-spinners";
 import { overrideStyle } from "../../utils/utils";
-import { categoryAdd } from "../../store/Reducers/categoryReducer";
+import {   } from "../../store/Reducers/categoryReducer";
 import { useDispatch, useSelector } from "react-redux";
 
 const Category = () => {
