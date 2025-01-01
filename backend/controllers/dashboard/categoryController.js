@@ -46,8 +46,39 @@ class categoryControllers {
     }
 
     get_category = async(req,res) => {
-        console.log('this is getting')
+        const {page,searchValue,parPage} = req.query;
+        const skipPage = parseInt(parPage) * (parseInt(page) - 1)
+
+
+        try{
+            if(searchValue && page && parPage){
+                 const categorys = await categoryModel.find({
+                    $text: {$search: searchValue}
+                 }).skip(skipPage).limit(parPage).sort({createdAt: -1})
+                 const totalCategory = await categoryModel.find({
+                    $text: {$search: searchValue}
+                 }).countDocuments()
+                 responseReture(res,200,{categorys,totalCategory})
+            } else if(searchValue === '' && page && parPage){
+                const categorys = await categoryModel.find({}).skip(skipPage).limit(parPage).sort({createdAt: -1})
+                 const totalCategory = await categoryModel.find({}).countDocuments()
+                 responseReture(res,200,{categorys,totalCategory})
+            }
+             else {
+
+                const categorys = await categoryModel.find({}).skip(skipPage)
+                .limit(parPage).sort({createdAt: -1})
+                const totalCategory = await categoryModel.find({}).countDocuments()
+                responseReture(res,200,{categorys,totalCategory})
+            }
+
+        } catch(error){
+            console.log(error.message)
+        }
+
     }
+
+
 }
 
 
