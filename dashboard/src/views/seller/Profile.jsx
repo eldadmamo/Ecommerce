@@ -1,11 +1,16 @@
 import { FaEdit, FaImages, FaRegEdit } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { FadeLoader } from "react-spinners";
 
 const Profile = () => {
+    
+
+    const dispatch  = useDispatch()
+    const {userInfo} = useSelector(state => state.auth)
+
     const image = true 
     const loader = true
     const status = 'active'
-    const userInfo = true
 
     return (
         <div className="px-2 lg:px-7 py-5">
@@ -13,7 +18,7 @@ const Profile = () => {
                 <div className="w-full md:w-6/12">
                   <div className="w-full p-4 bg-[#6a5fdf] rounded-md text-[#d0d2d6]">
                     <div className="flex justify-center items-center py-3">
-                        {image ? 
+                        {image?.image ? 
                         <label htmlFor="img" className="h-[150px] w-[200px] relative p-3 cursor-pointer overflow-hidden">
                             <img src="http://localhost:5173/images/user.png" alt=""/>
                             {
@@ -45,26 +50,26 @@ const Profile = () => {
                         <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer"> <FaRegEdit/> </span>
                         <div className="flex gap-2">
                             <span>Name:</span>
-                            <span>Eldad Mamo</span>
+                            <span>{userInfo.email}</span>
                         </div>
                         <div className="flex gap-2">
                             <span>Email:</span>
-                            <span>Eldadfikre456@gmail.com</span>
+                            <span>{userInfo.email}</span>
                         </div>
                         <div className="flex gap-2">
                             <span>Role:</span>
-                            <span>Seller</span>
+                            <span>{userInfo.role}</span>
                         </div>
                         <div className="flex gap-2">
                             <span>Status:</span>
-                            <span>Active</span>
+                            <span>{userInfo.status}</span>
                         </div>
                         <div className="flex gap-2">
                             <span>Payment Account:</span>
                             <p>
                                 {
                                     status === 'active' ? 
-                                    <span className="bg-green-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">Pending</span> : 
+                                    <span className="bg-red-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">{userInfo.payment}</span> : 
                                     <span className="bg-blue-500 text-white text-xs cursor-pointer font-normal ml-2 px-2 py-0.5 rounded">Click Active</span>
                                 }
                             </p>
