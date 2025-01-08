@@ -1,5 +1,6 @@
 import Banner from "../components/Banner";
 import Categorys from "../components/Categorys";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import FeatureProducts from "../components/products/FeatureProducts";
 import Products from "../components/products/Products";
@@ -27,6 +28,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+            <Footer/>
            </div>
         </div>
     );
