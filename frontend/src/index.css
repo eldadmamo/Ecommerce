@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom carousel styles */
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-item-padding-40-px {
+    padding: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-dot-list-style {
+    bottom: 20px !important;
+}
+
+.custom-dot-list-style button {
+    border: none;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.custom-dot-list-style .react-multi-carousel-dot--active button {
+    background: white;
+}
+
+/* Prevent jiggling on desktop */
+.react-multi-carousel-track {
+    transition: transform 500ms ease-in-out !important;
+}
+
+.react-multi-carousel-item {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
