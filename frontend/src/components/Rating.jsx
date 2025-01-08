@@ -1,6 +1,8 @@
 import React from 'react';
 import { FaStar, FaStarHalf, FaStarHalfAlt } from 'react-icons/fa';
 import {CiStar} from 'react-icons/ci'
+
+
 const Rating = ({ratings}) => {
     return (
         <>
