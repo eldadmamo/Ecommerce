@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter,Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Shops from "./pages/Shops";
-
+import Card from "./pages/Card";
 
 
 const App = () => {
@@ -11,6 +11,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/shops" element={<Shops/>} />
+        <Route path="/card" element={<Card/>} />
       </Routes>
     </BrowserRouter>
   );
