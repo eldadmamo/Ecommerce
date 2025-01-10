@@ -6,7 +6,7 @@ import Carousel from "react-multi-carousel";
 import { useState } from "react";
 import Rating from "../components/Rating";
 import { FaFacebookF, FaGithub, FaHeart, FaLinkedin, FaTwitter } from "react-icons/fa";
-import Reviews from "../components/products/Reviews";
+import Reviews from "../components/Reviews";
 import {Pagination} from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination';
