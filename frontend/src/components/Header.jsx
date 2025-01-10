@@ -39,7 +39,7 @@ const Header = () => {
                                     <MdEmail/>
                                 </span>
                                 <span>
-                                    Support@gmail.com
+                                    eldadfikre456@gmail.com
                                 </span>
                             </li>
                             <li className="flex relative justify-center items-center gap-2 text-sm after:absolute after:h-[18px] after:w-[1px] after:bg-[#000000] after:-right-[16px]">
