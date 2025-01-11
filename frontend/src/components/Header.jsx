@@ -8,7 +8,9 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-const Header = ({categorys}) => {
+const Header = () => {
+
+    const {categorys} = useSelector(state => state.home)
 
     const {pathname} = useLocation()
     
@@ -16,7 +18,6 @@ const Header = ({categorys}) => {
     const [categoryShow,setCategoryShow] = useState(true)
     const user = true;
     const wishlist_count = 3
-    console.log(categorys.name)
     
     const [searchValue, setSearchValue] = useState('')
     const [category, setCategory] = useState('')
@@ -253,7 +254,7 @@ const Header = ({categorys}) => {
                 <div className={`${categoryShow? 'h-0':'h-[400px]'} overflow-hidden transition-all md-lg:relative duration-500 absolute z-[99999] bg-[#059473] w-full border-x`}>
                     <ul className='py-2 text-slate-600 font-medium'>
                         {
-                           categorys && categorys.map((index,key) => {
+                            categorys.map((index,key) => {
                                 return (
                                     <li className='flex justify-start items-center gap-2 px-[24px] py-[6px]' key={key}>
                                         <img src={index.image} className='w-[30px] h-[30px] rounded-full overflow-hidden' alt='' />

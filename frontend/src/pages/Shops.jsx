@@ -7,32 +7,60 @@ import { useState } from 'react';
 import {Range} from 'react-range'
 import {AiFillStar} from 'react-icons/ai'
 import { CiStar } from 'react-icons/ci';
-import Products from '../components/products/Products';
 import {BsFillGridFill} from 'react-icons/bs'
 import { FaThList } from 'react-icons/fa';
 import ShopProducts from '../components/products/Shopproduct';
 import Pagination from '../components/Pagination';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { price_range_product } from '../store/reducers/homeReducer';
+import Products from '../components/products/Products';
 
 const Shops = () => {
     const [filter, setFilter] = useState(true)
-    const categorys = [
-        'Mobiles',
-        'Laptops',
-        'Top wear',
-        'Footwear',
-        'Watches',
-        'Home Decor',
-        'Smart Watches'
-    ]
+    // const categorys = [
+    //     'Mobiles',
+    //     'Laptops',
+    //     'Top wear',
+    //     'Footwear',
+    //     'Watches',
+    //     'Home Decor',
+    //     'Smart Watches'
+    // ]
 
-    const [state,setState] = useState({values:[50,1500]})
+    const dispatch = useDispatch();
+
+    const {products, categorys,priceRange,latest_product} = useSelector(state => state.home)
+
+    useEffect(()=> {
+        dispatch(price_range_product())
+    })
+
+    useEffect(()=> {
+        setState({
+            values:[priceRange.low,priceRange.high]
+        })
+    },[priceRange])
+
+    const [state,setState] = useState({values:[priceRange.low,priceRange.high]})
     const [rating, setRating] = useState('')
     const [styles, setStyles] = useState('grid')
 
     const [parPage, setParPage] = useState(1)
     const [pageNumber, setPageNumber] = useState(1)
+
+    const [sortPrice, setSortPrice] = useState();
     const [show, setShow] = useState(false);
     const [imageShow, setImage] = useState('')
+
+    const [category, setCategory] = useState('')
+    const queryCategory = (e,value) => {
+        if(e.target.checked) {
+            setCategory(value)
+        } else {
+            setCategory('')
+        }
+    }
 
 
     return (
@@ -64,12 +92,12 @@ const Shops = () => {
             <div className={`w-3/12 md-lg:w-4/12 md:w-full pr-8 ${filter ? 'md:h-0 md:overflow-hidden md:mb-6': 'md:h-auto md:overflow-auto md:mb-0'}`}>
                 <h2 className='text-3xl font-bold mb-3 text-slate-600'>Category </h2>
                 <div className='py-2'>
-                    {categorys.map((c,i) => (
+                    {categorys.map((c,i) => 
                         <div key={i} className='flex justify-start items-center gap-2 py-1'>
-                            <input type='checkbox' id={c} />
-                            <label className='text-slate-600 block cursor-pointer' htmlFor={c}>{c}</label>
+                            <input checked={category === c.name ? true: false} onChange={(e) => queryCategory(e,c.name)} type='checkbox' id={c.name} />
+                            <label className='text-slate-600 block cursor-pointer' htmlFor={c.name}>{c.name}</label>
                         </div>
-                    ))}
+                    )}
                 </div>
 
 
@@ -78,8 +106,8 @@ const Shops = () => {
 
                     <Range
                     step={5}
-                    min={50}
-                    max={1500}
+                    min={priceRange.low}
+                    max={priceRange.high}
                     values={(state.values)}
                     onChange={(values) => setState({values})}
                     renderTrack={({props,children}) => (
@@ -143,7 +171,7 @@ const Shops = () => {
                 </div>
             </div>
             <div className='py-5 flex flex-col gap-4 md:hidden'>
-                <Products title='Latest Products'/>
+                <Products title='Latest Products' products={latest_product}/>
             </div>
         </div>
 
