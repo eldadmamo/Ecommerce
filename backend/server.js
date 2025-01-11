@@ -16,11 +16,14 @@ app.use(bodyParser.json())
 
 app.use(cookieParser())
 
+app.use('/api/home',require('./routes/home/homeRoutes'))
 app.use('/api',require('./routes/authRoutes'))
 app.use('/api',require('./routes/dashboard/categoryRoute'))
 app.use('/api',require('./routes/dashboard/productRoute'))
+app.use('/api',require('./routes/dashboard/sellerRoutes'))
 
 
+app.get('/',(req,res) => res.send('Hello Server'))
 const port = process.env.PORT;
 dbConnect()
 

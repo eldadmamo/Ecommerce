@@ -20,7 +20,6 @@ const App = () => {
         <Route path="/card" element={<Card/>} />
         <Route path="/shipping" element={<Shipping/>} />
         <Route path="/product/details/:slug" element={<Details/>} />
-        
       </Routes>
     </BrowserRouter>
   );

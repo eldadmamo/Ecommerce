@@ -1,16 +1,53 @@
-import { FaEdit, FaImages, FaRegEdit } from "react-icons/fa";
+import { FaImages, FaRegEdit } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { FadeLoader } from "react-spinners";
+import { FadeLoader, PropagateLoader } from "react-spinners";
+import { messageClear, profile_image_upload } from "../../store/Reducers/authReducer";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { useState } from "react";
+import { overrideStyle } from "../../utils/utils";
+import { profile_info_add } from "../../store/Reducers/authReducer";
 
 const Profile = () => {
-    
+
+    const [state, setState] = useState({
+        division:'',
+        district: '',
+        shopName:'',
+        sub_district:''
+    }) 
 
     const dispatch  = useDispatch()
-    const {userInfo} = useSelector(state => state.auth)
+    const {userInfo,loader,successMessage} = useSelector(state => state.auth)
 
-    const image = true 
-    const loader = true
-    const status = 'active'
+    
+    useEffect(() => { 
+        if(successMessage){
+            toast.success(successMessage)
+            messageClear()
+        }
+
+    },[successMessage])
+
+    const add_image = (e) => {
+        if(e.target.files.length > 0){
+            const formData = new FormData()
+            formData.append('image',e.target.files[0])
+            dispatch(profile_image_upload(formData))
+        }
+    }
+
+    const inputHandle = (e) => {
+        setState({
+            ...state,
+            [e.target.name]: e.target.value
+        })
+    } 
+
+    const add = (e) => {
+        e.preventDefault()
+        dispatch(profile_info_add(state))
+    }
 
     return (
         <div className="px-2 lg:px-7 py-5">
@@ -18,11 +55,12 @@ const Profile = () => {
                 <div className="w-full md:w-6/12">
                   <div className="w-full p-4 bg-[#6a5fdf] rounded-md text-[#d0d2d6]">
                     <div className="flex justify-center items-center py-3">
-                        {image?.image ? 
+                        {
+                        userInfo?.image ? 
                         <label htmlFor="img" className="h-[150px] w-[200px] relative p-3 cursor-pointer overflow-hidden">
-                            <img src="http://localhost:5173/images/user.png" alt=""/>
+                            <img src={userInfo.image} alt=""/>
                             {
-                                !loader && <div className="bg-slate-600 absolute left-0 top-0 w-full h-full opacity-70 flex justify-center items-center z-20">
+                                loader && <div className="bg-slate-600 absolute left-0 top-0 w-full h-full opacity-70 flex justify-center items-center z-20">
                                     <span>
                                         <FadeLoader/>
                                     </span>
@@ -42,7 +80,7 @@ const Profile = () => {
                             }
                         </label>
                         }
-                        <input type="file" className="hidden" id="img" />
+                        <input onChange={add_image} type="file" className="hidden" id="img" />
                     </div>
 
                  <div className="px-0 md:px-5 py-2">
@@ -50,7 +88,7 @@ const Profile = () => {
                         <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer"> <FaRegEdit/> </span>
                         <div className="flex gap-2">
                             <span>Name:</span>
-                            <span>{userInfo.email}</span>
+                            <span>{userInfo.name}</span>
                         </div>
                         <div className="flex gap-2">
                             <span>Email:</span>
@@ -79,44 +117,48 @@ const Profile = () => {
 
                  <div className="px-0 md:px-5 py-2">
                     {
-                        userInfo ? 
-                <form>
+                        !userInfo?.shopInfo ? 
+                <form onSubmit={add}>
                         <div className="flex flex-col w-full gap-1 mb-2">
                             <label htmlFor="Shop">Shop Name</label>
-                            <input className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]" type="text" name="shopName" id="Shop" placeholder="Shop Name" />
+                            <input value={state.shopName} onChange={inputHandle} className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]" type="text" name="shopName" id="Shop" placeholder="Shop Name" />
                         </div>
                         <div className="flex flex-col w-full gap-1 mb-2">
                             <label htmlFor="division">Division Name</label>
-                            <input className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]" type="text" name="division" id="division" placeholder="Division Name" />
+                            <input value={state.division} onChange={inputHandle} className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]" type="text" name="division" id="division" placeholder="Division Name" />
                         </div> 
                         <div className="flex flex-col w-full gap-1 mb-2">
-                            <label htmlFor="name">District Name</label>
-                            <input className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]" type="text" name="district" id="district" placeholder="Product Name" />
+                            <label htmlFor="district">District Name</label>
+                            <input value={state.district} onChange={inputHandle} className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]" type="text" name="district" id="district" placeholder="District Name" />
                         </div>
                         <div className="flex flex-col w-full gap-1 mb-2">
-                            <label htmlFor="subdis">Sub District Name</label>
-                            <input className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]" type="text" name="name" id="subdis" placeholder="Sub District Name" />
+                            <label htmlFor="sub">Sub District Name</label>
+                            <input value={state.sub_district} onChange={inputHandle} className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]" type="text" name="sub_district" id="subdis" placeholder="Sub District Name" />
                         </div>
-                        <button className="bg-red-500  hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2 my-2">Save Changes </button>
+                        <button disabled={loader ? true : false} className="bg-red-500 w-[280px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
+                                {
+                                    loader ? <PropagateLoader color="#fff" cssOverride={overrideStyle}/>:  'Save Changes'
+                                }
+                        </button>
                 </form> 
                 :
                 <div className="flex justify-between text-sm flex-col gap-2 p-4 bg-slate-800 rounded-md relative">
                         <span className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50 absolute right-2 top-2 cursor-pointer"> <FaRegEdit/> </span>
                         <div className="flex gap-2">
                             <span>Shop Name:</span>
-                            <span>Destamerch</span>
+                            <span>{userInfo.shopInfo?.shopName}</span>
                         </div>
                         <div className="flex gap-2">
                             <span>Division:</span>
-                            <span>Addis Ababa</span>
+                            <span>{userInfo.shopInfo?.division}</span>
                         </div>
                         <div className="flex gap-2">
                             <span>District:</span>
-                            <span>Kolfe keraniyo</span>
+                            <span>{userInfo.shopInfo?.district}</span>
                         </div>
                         <div className="flex gap-2">
                             <span>Sub District:</span>
-                            <span>Ayer Tena</span>
+                            <span>{userInfo.shopInfo?.sub_district }</span>
                         </div>
                     </div> 
 

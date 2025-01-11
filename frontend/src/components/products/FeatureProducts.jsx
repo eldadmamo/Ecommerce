@@ -4,7 +4,7 @@ import {RiShoppingCartLine} from 'react-icons/ri';
 import Rating from './../Rating';
 import { Link } from 'react-router-dom';
 
-const FeatureProducts = () => {
+const FeatureProducts = ({products}) => {
     return (
         <div className='w-[85%] flex flex-wrap mx-auto'>
             <div className='w-full'>
@@ -16,13 +16,18 @@ const FeatureProducts = () => {
 
             <div className='w-full grid grid-cols-4 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6'>
                 {
-                    [1,2,3,4,5,6].map((index,i) => 
+                    products.map((index,i) => 
                     <div key={i} className=''>
                         <div className='relative overflow-hidden group'>
-                            <div className='flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2'>
-                                8%
-                            </div>
-                            <img className='sm:w-full w-full h-[240px]' src={`http://localhost:5173/images/products/${i+1}.webp`} alt='' />
+                            {
+                                index.discount ? 
+                                <div className='flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2'>
+                                {index.discount}%
+                                </div>
+                                : 
+                                ''
+                            }
+                            <img className='sm:w-full w-full h-[240px]' src={index.images[0]} alt='' />
 
                             <ul className='flex transition-all duration-700 -bottom-10 justify-center items-center gap-2 absolute w-full group-hover:bottom-3'>
                                 <li className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all'>
@@ -37,11 +42,11 @@ const FeatureProducts = () => {
                             </ul>
                         </div>
                         <div className='py-3 text-slate-600 px-2'>
-                            <h2 className='font-bold'>Product Name</h2>
+                            <h2 className='font-bold'>{index.name}</h2>
                             <div className='flex justify-start items-center gap-3'>
-                                <span className='text-lg font-semibold'>$656</span>
+                                <span className='text-lg font-semibold'>{index.price}</span>
                                 <div className='flex'>
-                                    <Rating ratings={4.5} />
+                                    <Rating ratings={index.rating} />
                                 </div>
                             </div>
                         </div>
