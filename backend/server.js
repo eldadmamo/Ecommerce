@@ -21,6 +21,7 @@ app.use('/api',require('./routes/authRoutes'))
 app.use('/api',require('./routes/dashboard/categoryRoute'))
 app.use('/api',require('./routes/dashboard/productRoute'))
 app.use('/api',require('./routes/dashboard/sellerRoutes'))
+app.use('/api',require('./routes/home/customerAuthRoutes'))
 
 
 app.get('/',(req,res) => res.send('Hello Server'))

@@ -17,7 +17,7 @@ const Header = () => {
     
     const [showSidebar,setShowSidebar] = useState(true)
     const [categoryShow,setCategoryShow] = useState(true)
-    const user = true;
+    const user = false;
     const wishlist_count = 3
     
     const [searchValue, setSearchValue] = useState('')
@@ -76,7 +76,7 @@ const Header = () => {
                                         <span>Eldad Mamo</span>
                                     </Link> 
                                     : 
-                                    <Link className="flex cursor-pointer justify-center items-center gap-2 text-sm text-black" to="/login">
+                                    <Link to='/login' className="flex cursor-pointer justify-center items-center gap-2 text-sm text-black">
                                     <span><FaLock/></span>
                                     <span>Login</span>
                                 </Link>
