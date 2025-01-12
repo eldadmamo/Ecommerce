@@ -1,7 +1,7 @@
 import { IoIosArrowForward } from "react-icons/io";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaFacebookF, FaGooglePlusG } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,8 @@ import { messageClear } from "../store/reducers/homeReducer";
 
 const Register = () => {
 
-     const {loader, errorMessage, successMessage} = useSelector(state => state.auth)
+    const navigate = useNavigate()
+     const {loader, errorMessage, successMessage,userInfo} = useSelector(state => state.auth)
 
     const [state, setState] = useState({
         name:'',
@@ -46,6 +47,10 @@ const Register = () => {
             toast.error(errorMessage)
             dispatch(messageClear())
         } 
+
+        if(userInfo){
+            navigate('/') 
+        }
 
     },[successMessage, errorMessage])
 

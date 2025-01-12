@@ -39,6 +39,34 @@ class customerAuthController{
             console.log(error.message)
         }
     }
+
+    customer_login = async(req,res) => {
+        const {email,password} = req.body;
+        try{
+            const customer = await customerModel.findOne({email}).select('+password')
+            if(customer){
+                const match = await bcrypt.compare(password, customer.password)
+                if(match){
+                    const token  = await createToken({
+                        id:customer.id,
+                        name: customer.name,
+                        email: customer.email,
+                        method: customer.method 
+                    })
+                    res.cookie('customerToken',token,{
+                        expires: new Date(Date.now() + 7 *24*60*60*1000)
+                    })
+                    responseReture(res,201,{message: 'User Login Success', token})
+                } else {
+                    responseReture(res,404, {error: 'Password Wrong'})
+                }
+            } else {
+                responseReture(res, 404, {error: 'Email Not Found'})
+            }
+        } catch(error){
+            console.log(error.message)
+        }
+    }
 }
 
 module.exports = new customerAuthController();

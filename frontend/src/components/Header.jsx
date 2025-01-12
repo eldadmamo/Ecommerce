@@ -12,6 +12,7 @@ const Header = () => {
 
     const navigate = useNavigate()
     const {categorys} = useSelector(state => state.home)
+    const {userInfo} = useSelector(state => state.auth)
 
     const {pathname} = useLocation()
     
@@ -70,10 +71,10 @@ const Header = () => {
                                 </div>
 
                                 {
-                                    user ? 
+                                    userInfo ? 
                                     <Link className="flex cursor-pointer justify-center items-center gap-2 text-sm text-black" to="/dashboard">
                                         <span><FaUsers/></span>
-                                        <span>Eldad Mamo</span>
+                                        <span>{userInfo.name}</span>
                                     </Link> 
                                     : 
                                     <Link to='/login' className="flex cursor-pointer justify-center items-center gap-2 text-sm text-black">
