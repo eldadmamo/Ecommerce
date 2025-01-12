@@ -258,7 +258,7 @@ const Header = () => {
                                 return (
                                     <li className='flex justify-start items-center gap-2 px-[24px] py-[6px]' key={key}>
                                         <img src={index.image} className='w-[30px] h-[30px] rounded-full overflow-hidden' alt='' />
-                                        <Link className="text-sm"> {index.name} </Link>
+                                        <Link to={`/products?category=${index.name}`} className="text-sm"> {index.name} </Link>
                                     </li>
                                 )
                             })

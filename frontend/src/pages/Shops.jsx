@@ -13,11 +13,12 @@ import ShopProducts from '../components/products/Shopproduct';
 import Pagination from '../components/Pagination';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { price_range_product } from '../store/reducers/homeReducer';
+import { price_range_product,query_products } from '../store/reducers/homeReducer';
 import Products from '../components/products/Products';
 
 const Shops = () => {
     const [filter, setFilter] = useState(true)
+
     // const categorys = [
     //     'Mobiles',
     //     'Laptops',
@@ -30,7 +31,7 @@ const Shops = () => {
 
     const dispatch = useDispatch();
 
-    const {products, categorys,priceRange,latest_product} = useSelector(state => state.home)
+    const {products, categorys,priceRange,latest_product,totalProduct,parPage} = useSelector(state => state.home)
 
     useEffect(()=> {
         dispatch(price_range_product())
@@ -46,10 +47,10 @@ const Shops = () => {
     const [rating, setRating] = useState('')
     const [styles, setStyles] = useState('grid')
 
-    const [parPage, setParPage] = useState(1)
+    // const [parPage, setParPage] = useState(1)
     const [pageNumber, setPageNumber] = useState(1)
 
-    const [sortPrice, setSortPrice] = useState();
+    const [sortPrice, setSortPrice] = useState('');
     const [show, setShow] = useState(false);
     const [imageShow, setImage] = useState('')
 
@@ -62,6 +63,32 @@ const Shops = () => {
         }
     }
 
+    useEffect(()=> {
+        dispatch(
+            query_products({
+                low: state.values[0],
+                high: state.values[1],
+                category,
+                rating,
+                sortPrice,
+                pageNumber
+            })
+        )
+    },[state.values[0],state.values[1],category,rating,sortPrice,pageNumber])
+
+    const resetRating = () => {
+        setRating('') 
+        dispatch(
+            query_products({
+                low: state.values[0],
+                high: state.values[1],
+                category,
+                rating:'',
+                sortPrice,
+                pageNumber
+            })
+        )
+    }
 
     return (
         <div>
@@ -105,7 +132,7 @@ const Shops = () => {
                     <h2 className='text-3xl font-bold mb-3 text-slate-600'>Price</h2>
 
                     <Range
-                    step={5}
+                    step={20}
                     min={priceRange.low}
                     max={priceRange.high}
                     values={(state.values)}
@@ -178,9 +205,9 @@ const Shops = () => {
         <div className='w-9/12 md-lg:w-8/12 md:w-full'>
             <div className='pl-8 md:pl-0'>
                 <div className='py-4 bg-white mb-10 px-3 rounded-md flex justify-between items-start border'>
-                    <h2 className='text-lg font-medium text-slate-600'>14 Products</h2>
+                    <h2 className='text-lg font-medium text-slate-600'>{totalProduct} Products</h2>
                <div className='flex justify-center items-center gap-3'>
-                <select className='p-1 border outline-0 text-slate-600 font-semibold' name='' id=''>
+                <select onChange={(e) => setSortPrice(e.target.value)} className='p-1 border outline-0 text-slate-600 font-semibold' name='' id=''>
                     <option value="">Sort By</option>
                     <option value="low-to-high">Low to High Price</option>
                     <option value="high-to-low">High to Low Price</option>
@@ -197,12 +224,16 @@ const Shops = () => {
                 </div>
 
                 <div className='pb-8'>
-                    <ShopProducts styles={styles} />
+                    <ShopProducts products={products} styles={styles} />
                 </div>
 
 
                 <div>
-                    <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} totalItem={10} parPage={parPage} showItem={Math.floor(10/3)} />
+                    {
+                        totalProduct > parPage && <Pagination pageNumber={pageNumber} 
+                        setPageNumber={setPageNumber} totalItem={totalProduct} parPage={parPage} 
+                        showItem={Math.floor(totalProduct/parPage)} /> 
+                    }
                 </div>
 
             </div>
@@ -210,10 +241,6 @@ const Shops = () => {
 
                 
     </div>
-
-            
-
-            
 
             </div>
         </section>
