@@ -1,7 +1,7 @@
 import {MdEmail} from 'react-icons/md'
 import {IoIosArrowDown, IoMdArrowDropdown, IoMdPhonePortrait} from 'react-icons/io'
 import { FaFacebookF, FaLinkedin, FaTwitter, FaGithub,FaLock,FaList, FaHeart, FaPhoneAlt } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaUsers } from 'react-icons/fa';
 import {FaCartShopping} from 'react-icons/fa6'
 import { useState } from 'react';
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Header = () => {
 
+    const navigate = useNavigate()
     const {categorys} = useSelector(state => state.home)
 
     const {pathname} = useLocation()
@@ -21,6 +22,10 @@ const Header = () => {
     
     const [searchValue, setSearchValue] = useState('')
     const [category, setCategory] = useState('')
+
+    const search = () => {
+        navigate(`/products/search?category=${category}&&value=${searchValue}`)
+    }
 
     return (
         <div className="w-full bg-white">
@@ -278,13 +283,14 @@ const Header = () => {
                                 <option value="">Select Category</option>
                                 {
                                     categorys.map((index,key) => 
-                                        <option key={key}>{index.name}</option>
+                                        <option key={key} value={index.name}>{index.name}</option>
                                     )
                                 }
                             </select>
                         </div>
-                        <input className='w-full relative bg-transparent text-slate-500 outline-0 px-3 h-full' onChange={(e) => setSearchValue(e.target.value)} type='text' name='' id='' placeholder='what do you need' />
-                        <button className='bg-[#059473] right-0 absolute px-8 h-full font-semibold uppercase'>Search</button>
+                        <input className='w-full relative bg-transparent text-slate-500 outline-0 px-3 h-full'
+                        onChange={(e) => setSearchValue(e.target.value)} type='text' name='' id='' placeholder='what do you need' />
+                        <button onClick={search} className='bg-[#059473] right-0 absolute px-8 h-full font-semibold uppercase'>Search</button>
                     </div>
 
                     </div>
