@@ -18,6 +18,7 @@ app.use(cookieParser())
 
 app.use('/api/home',require('./routes/home/homeRoutes'))
 app.use('/api',require('./routes/authRoutes'))
+app.use('/api',require('./routes/order/orderRoutes'))
 app.use('/api',require('./routes/dashboard/categoryRoute'))
 app.use('/api',require('./routes/dashboard/productRoute'))
 app.use('/api',require('./routes/dashboard/sellerRoutes'))

@@ -11,6 +11,7 @@ import { get_category } from "./store/reducers/homeReducer";
 import { useDispatch } from 'react-redux';
 import CategoryShop from "./pages/CategoryShop";
 import SearchProduct from "./pages/SearchProduct";
+import Payment from "./pages/Payment";
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/register" element={<Register/>} />
         <Route path="/card" element={<Card/>} />
         <Route path="/shipping" element={<Shipping/>} />
+        <Route path="/payment" element={<Payment/>} />
         <Route path="/products?" element={<CategoryShop/>} />
         <Route path="/products/search?" element={<SearchProduct/>} />
         <Route path="/product/details/:slug" element={<Details/>} />
