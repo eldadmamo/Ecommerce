@@ -3,33 +3,46 @@ import api from "../../api/api";
 
 
 export const place_order = createAsyncThunk(
-    "order/place_order",
-    async ({price,products,shipping_fee,items,shippingInfo,userId,navigate}, { fulfillWithValue, rejectWithValue }) => {
+    'order/place_order',
+    async( {price,products,shipping_fee,items,shippingInfo,userId,navigate}) => { 
         try {
-            const { data } = await api.post("/home/product/place-order", {
+            const { data } = await api.post('/home/order/place-order',{
                 price,products,shipping_fee,items,shippingInfo,userId,navigate
-            });
+            })
             navigate('/payment',{
-                state:{
+                state: {
                     price:price + shipping_fee,
                     items,
-                    orderId: data.orderId
+                    orderId: data.orderId 
                 }
             })
             console.log(data)
-            return fulfillWithValue(data);
         } catch (error) {
-            // console.log(error.message)
-            return rejectWithValue(error.response.data);
+            console.log(error.response)
         }
     }
-);
+)
 
 export const get_orders = createAsyncThunk(
     "order/get_orders",
     async ({customerId,status}, { fulfillWithValue, rejectWithValue }) => {
         try {
             const { data } = await api.get(`/home/customer/get_orders/${customerId}/${status}`);
+            // localStorage.setItem('customerToken',data.token);
+            console.log(data)
+            return fulfillWithValue(data);
+        } catch (error) {
+            console.log(error.message)
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
+export const get_orders_details = createAsyncThunk(
+    "order/get_orders_details",
+    async (orderId, { fulfillWithValue, rejectWithValue }) => {
+        try {
+            const { data } = await api.get(`/home/customer/get-orders-details/${orderId}`);
             // localStorage.setItem('customerToken',data.token);
             console.log(data)
             return fulfillWithValue(data);
@@ -59,6 +72,10 @@ export const orderReducer = createSlice({
 
         .addCase(get_orders.fulfilled, (state, {payload}) => {
             state.myOrders = payload.orders;  
+        })
+
+        .addCase(get_orders_details.fulfilled, (state, {payload}) => {
+            state.myOrder = payload.order;  
         })
 
     }
