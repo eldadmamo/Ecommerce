@@ -16,6 +16,8 @@ import Dashboard from "./pages/Dashboard";
 import ProtectUser from "./utils/protectUser";
 import Index from "./components/dashboard";
 import Orders from "./components/dashboard/Orders";
+import ChangePassword from "./components/dashboard/ChangePassword";
+import Wishlist from "./components/dashboard/Wishlist";
 
 
 
@@ -47,6 +49,8 @@ const App = () => {
         <Route path="" element={<Dashboard/>}>
         <Route path="" element={<Index/>} />
         <Route path="my-orders" element={<Orders/>} />
+        <Route path="change-password" element={<ChangePassword/>} />
+        <Route path="my-whishlist" element={<Wishlist/>} />
 
         </Route>
         </Route>

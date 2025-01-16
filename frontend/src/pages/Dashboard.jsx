@@ -37,7 +37,7 @@ const Dashboard = () => {
                             </li>
                             <li className='flex justify-start items-center gap-2 py-2'>
                                 <span className='text-xl'><FaHeart/></span>
-                                <Link to="/dashboard" className='block'>Wishlist</Link>
+                                <Link to="/dashboard/my-whishlist" className='block'>Wishlist</Link>
                             </li>
                             <li className='flex justify-start items-center gap-2 py-2'>
                                 <span className='text-xl'><IoChatbubbleEllipsesSharp/></span>
@@ -45,7 +45,7 @@ const Dashboard = () => {
                             </li>
                             <li className='flex justify-start items-center gap-2 py-2'>
                                 <span className='text-xl'><RiLockPasswordFill/></span>
-                                <Link to="/dashboard" className='block'>change Password</Link>
+                                <Link to="/dashboard/change-password" className='block'>change Password</Link>
                             </li>
                             <li className='flex justify-start items-center gap-2 py-2'>
                                 <span className='text-xl'><IoMdLogOut/></span>
