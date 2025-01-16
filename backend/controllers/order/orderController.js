@@ -4,6 +4,7 @@ const cardModel = require('../../models/cardModel')
 
 const moment = require('moment')
 const { responseReture } = require('../../utiles/response')
+const {mongo:{ObjectId}} = require('mongoose')
 
 class orderController{
     
@@ -102,7 +103,35 @@ class orderController{
         console.log(tempDate)
     }
 
-     
+    get_customer_dashboard = async (req,res) => {
+        const {userId}  = req.params;
+
+        try{
+            const recentOrders = await customerOrder.find({
+                customerId: new ObjectId(userId)  
+            }).limit(5)
+            const pendingOrder = await customerOrder.find({
+                customerId: new ObjectId(userId),
+                delivery_status: 'pending'
+            }).countDocuments()
+            const totalOrder = await customerOrder.find({
+                customerId: new ObjectId(userId)
+            }).countDocuments()
+            const cancelledOrder = await customerOrder.find({
+                customerId: new ObjectId(userId),
+                delivery_status: 'cancelled'
+            }).countDocuments()
+            responseReture(res,200,{
+                recentOrders,
+                pendingOrder,
+                totalOrder,
+                cancelledOrder
+            })
+
+        } catch(error){
+            console.log(error.message)
+        }
+    }
 
 }
 
