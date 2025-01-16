@@ -15,6 +15,7 @@ import Payment from "./pages/Payment";
 import Dashboard from "./pages/Dashboard";
 import ProtectUser from "./utils/protectUser";
 import Index from "./components/dashboard";
+import Orders from "./components/dashboard/Orders";
 
 
 
@@ -40,11 +41,17 @@ const App = () => {
         <Route path="/products?" element={<CategoryShop/>} />
         <Route path="/products/search?" element={<SearchProduct/>} />
         <Route path="/product/details/:slug" element={<Details/>} />
+
+
         <Route path="/dashboard" element={<ProtectUser/>}>
         <Route path="" element={<Dashboard/>}>
         <Route path="" element={<Index/>} />
+        <Route path="my-orders" element={<Orders/>} />
+
         </Route>
         </Route>
+
+
       </Routes>
     </BrowserRouter>
   );
