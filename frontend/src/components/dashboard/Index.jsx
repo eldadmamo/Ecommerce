@@ -19,10 +19,10 @@ const Index = () => {
 
     const redirect = (ord) => {
         let items = 0;
-        for(let i = 0; i < Array.length; i++){
+        for(let i = 0; i < ord.length; i++){
             items = ord.products[i].quantity + items;
         }
-        navigate('/payment',{
+        navigate('/payment', {
             state:{
                 price: ord.price,
                 items,
