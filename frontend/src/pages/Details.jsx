@@ -1,9 +1,9 @@
 import { IoIosArrowForward } from "react-icons/io";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Carousel from "react-multi-carousel";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Rating from "../components/Rating";
 import { FaFacebookF, FaGithub, FaHeart, FaLinkedin, FaTwitter } from "react-icons/fa";
 import Reviews from "../components/Reviews";
@@ -11,9 +11,25 @@ import {Pagination} from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination';
 import {Swiper, SwiperSlide} from 'swiper/react';
-
+import { useDispatch, useSelector } from "react-redux";
+import { product_details } from "../store/reducers/homeReducer";
+import toast from "react-hot-toast";
+import { add_to_card } from "../store/reducers/cardReducer";
+import { messageClear } from "../store/reducers/orderReducer";
 
 const Details = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const {slug} = useParams()
+    const {userInfo} = useSelector(state => state.auth)
+    const {product,relatedProducts,moreProducts} = useSelector(state => state.home)
+    const {errorMessage,successMessage} = useSelector(state => state.card)
+
+    useEffect(()=> {
+        dispatch(product_details(slug))
+    },[slug])
+
     const images = [1,2,3,4,5,6];
     const [image, setImages] = useState('')
     const discount = 10;
@@ -51,6 +67,47 @@ const Details = () => {
         }
     }
 
+    const [quantity, setQuantity] = useState(1)
+
+    const inc = () => {
+        if(quantity >= product.stock){
+            toast.error('Out Of Stock')
+        } else {
+            setQuantity(quantity + 1)
+        }
+    }
+
+    const dec = () => {
+        if(quantity > 1){
+           setQuantity(quantity - 1);
+        }
+    }
+
+    useEffect(()=> {
+        if(successMessage){
+            toast.success(successMessage)
+            dispatch(messageClear())
+        }
+
+        if(errorMessage){
+            toast.error(errorMessage)
+            dispatch(messageClear())
+        } 
+
+    },[successMessage, errorMessage])
+
+    const add_card = () => {
+            if(userInfo){
+                dispatch(add_to_card({
+                    userId: userInfo.id,
+                    quantity,
+                    productId: product._id 
+                }))
+            } else {
+                navigate('/login')
+            }
+        }
+
     return (
         <div>
             <Header/>
@@ -77,9 +134,9 @@ const Details = () => {
                         <div className="flex justify-start items-center text-md text-slate-600 w-full">
                             <Link to='/'>Home</Link>
                             <span className="pt-1"><IoIosArrowForward/></span>
-                            <Link to='/category'>Category</Link>
+                            <Link to='/category'>{product.category}</Link>
                             <span className="pt-1"><IoIosArrowForward/></span>
-                            <span>Product Name</span>
+                            <span>{product.name}</span>
                         </div>
                     </div>
                 </div>
@@ -90,21 +147,21 @@ const Details = () => {
                 <div className="grid grid-cols-2 md-lg:grid-cols-1 gap-8">
                    
                     <div className="p-5 border">
-                        <img className="h-[400px] w-full" src={ image ? `http://localhost:5173/images/products/${image}.webp`: `http://localhost:5173/images/products/${images[1]}.webp`}
+                        <img className="h-[400px] w-full" src={image ? image: product.images?.[0]}
                          alt="" />
                          <div className="py-3">
                             {
-                                images && <Carousel
+                                product.images && <Carousel
                                     autoPlay={true}
                                     infinite={true}
                                     responsive={responsive}
                                     transitionDuration={500}
                                 >
                                     {
-                                        images.map((img,i) => {
+                                        product.images.map((img,i) => {
                                             return (
                                                 <div key={i} onClick={() => setImages(img)}>
-                                                    <img className="h-[120px] cursor-pointer" src={`http://localhost:5173/images/products/${img}.webp`} alt='' />
+                                                    <img className="h-[120px] cursor-pointer" src={img} alt='' />
                                                 </div>
                                             )
                                         })
@@ -116,7 +173,7 @@ const Details = () => {
                     
                     <div className="flex flex-col gap-5">
                         <div className="text-3xl text-slate-600 font-bold">
-                            <h3>Product Name</h3>
+                            <h3>{product.name}</h3>
                         </div>
                         <div className="flex justify-start items-center gap-4">
                             <div className="flex text-xl">
@@ -127,30 +184,30 @@ const Details = () => {
 
                         <div className="text-2xl text-red-500 font-bold flex gap-3">
                             {
-                                discount !== 0 ? <>
-                                <h2 className="line-through">Price: $500</h2>
-                                <h2>${500 - Math.floor((500 * discount) / 100)}(-{discount}%)</h2>
-                                </>: <h2>Price : $200</h2>
+                               product.discount !== 0 ? <>
+                                <h2 className="line-through">Price: ${product.price}</h2>
+                                <h2>${product.price - Math.floor((product.price * product.discount) / 100)}(-{discount}%)</h2>
+                                </>: <h2>Price : ${product.price}</h2>
                             }
-
                         </div>
 
                         <div className="text-slate-600">
                             <p>
-                            Usain St. Leo Bolt is a Jamaican retired sprinter who is widely considered to be the greatest sprinter of all time. He is an eight-time Olympic gold medalist and the world record holder in the 100 metres, 200 metres, and 4 × 100 metres relay.Bolt is the only sprinter to win Olympic 100 m and 200 m titles at three consecutive Olympics (2008, 2012, and 2016).
+                            {product.description}
                             </p>
                         </div>
 
                         <div className="flex gap-3 pb-10 border-b">
                           {
-                            stock ? <>
+                            product.stock ? <>
                             <div className="flex bg-slate-200 h-[50px] justify-center items-center text-xl">
-                                <div className="px-6 cursor-pointer">-</div>
-                                <div className="px-6">2</div>
-                                <div className="px-6 cursor-pointer">+</div>
+                                <div onClick={dec} className="px-6 cursor-pointer">-</div>
+                                <div className="px-6">{quantity}</div>
+                                <div onClick={inc} className="px-6 cursor-pointer">+</div>
                             </div>
                             <div>
-                                <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-green-500/40  bg-[#059473] text-white">Add To Card</button>
+                                <button onClick={add_card}
+                                 className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-green-500/40  bg-[#059473] text-white">Add To Card</button>
 
                             </div>
                             </> : ''
@@ -170,8 +227,8 @@ const Details = () => {
                             <span>Share On</span>
                         </div>
                         <div className="flex flex-col gap-5">
-                            <span className={`text-${stock ? 'green': 'red'}-500`}>
-                                {stock ? `In Stock(${stock})`: 'Out Of Stock'}
+                            <span className={`text-${product.stock ? 'green': 'red'}-500`}>
+                                {product.stock ? `In Stock(${product.stock})`: 'Out Of Stock'}
                             </span>
                             <ul className="flex justify-start items-center gap-3">
                                 <li>
@@ -245,24 +302,24 @@ const Details = () => {
                                     </div>
                                     <div className="flex flex-col gap-5 mt-3 border p-3">
                                         {
-                                            [1,2,3].map((p,i) => {
+                                            moreProducts.map((p,i) => {
                                                 return (
                                                     <Link className="block">
                                                       <div className="relative h-[270px]">
-                                                        <img className="w-full h-full" src={`http://localhost:5173/images/products/${p}.webp`} alt='' />
+                                                        <img className="w-full h-full" src={p.images[0]} alt='' />
                                                         {
-                                                            discount !== 0 && 
+                                                            p.discount !== 0 && 
                                                             <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
-                                                                {discount}%
+                                                                {p.discount}%
                                                             </div>
                                                         }
                                                       </div>
 
-                                                    <h2 className="text-slate-600 py-1 font-bold">Product Name</h2>
+                                                    <h2 className="text-slate-600 py-1 font-bold">{p.name}</h2>
                                                     <div className="flex gap-2">
-                                                        <h2 className="text-lg font-bold text-slate-600">$434</h2>
+                                                        <h2 className="text-lg font-bold text-slate-600">${p.price}</h2>
                                                         <div className="flex items-center gap-2">
-                                                            <Rating ratings={4.5} />
+                                                            <Rating ratings={p.rating} />
                                                         </div>
                                                     </div>
 
@@ -302,31 +359,31 @@ const Details = () => {
 
                         >
                             {
-                                [1,2,3,4,5,6].map((p,i) => {
+                                relatedProducts.map((p,i) => {
                                     return (
                                         <SwiperSlide key={i}>
                                             <Link className="block">
                                             <div className="relative h-[270px]">
                                                 <div className="w-full h-full">
-                                                    <img className="w-full h-full" src={`http://localhost:5173/images/products/${p}.webp`} alt=''  />
+                                                    <img className="w-full h-full" src={p.images[0]} alt=''  />
                                                     <div className="absolute h-full w-full top-0 left-0 bg-[#000] opacity-25 hover:opacity-50 transition-all duration-500">
                                                         
                                                     </div>
                                                 </div>
                                                 {
-                                                discount !== 0 && 
+                                                p.discount !== 0 && 
                                                   <div className="flex justify-center items-center absolute text-white w-[38px] h-[38px] rounded-full bg-red-500 font-semibold text-xs left-2 top-2">
-                                                    {discount}%
+                                                    {p.discount}%
                                                 </div>
                                                 }
                                             </div>
 
                                             <div className="p-4 flex flex-col gap-1">
-                                            <h2 className="text-slate-600 text-lg font-bold">Product Name</h2>
+                                            <h2 className="text-slate-600 text-lg font-bold">{p.name}</h2>
                                             <div className="flex justify-start items-center gap-3">
-                                                <h2 className="text-lg font-bold text-slate-600">$434</h2>
+                                                <h2 className="text-lg font-bold text-slate-600">${p.price}</h2>
                                                 <div className="flex">
-                                                    <Rating ratings={4.5} />
+                                                    <Rating ratings={p.rating} />
                                                 </div>
                                             </div>
                                             </div>

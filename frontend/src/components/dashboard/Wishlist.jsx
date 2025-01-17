@@ -25,7 +25,6 @@ const Wishlist = () => {
         }
     },[successMessage])
 
-
     return (
         <div className='w-full grid grid-cols-4 md-lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6'>
             {

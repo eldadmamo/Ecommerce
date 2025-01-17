@@ -123,6 +123,52 @@ class homeControllers {
         }
     }
 
+    product_details = async (req,res) => {
+        const {slug} = req.params;
+
+        try{
+            const product = await productModel.findOne({slug})
+            const relatedProducts = await productModel.find({
+                $and:[
+                {
+                    _id: {
+                        $ne: product.id
+                    }
+                },
+                {
+                    category:{
+                        $eq: product.category
+                    }
+                }
+            ]
+            }).limit(12) 
+
+            const moreProducts = await productModel.find({
+                $and:[
+                    {
+                        _id:{
+                            $ne: product.id
+                        }
+                    },
+                    {
+                        sellerId:{
+                            $eq: product.sellerId 
+                        }
+                    }
+                ]
+            }).limit(3)
+
+            responseReture(res,200,{
+                product,
+                relatedProducts,
+                moreProducts
+            })
+
+        }catch(error){
+            console.log(error.message)
+        }
+    }
+
 
 }
 
