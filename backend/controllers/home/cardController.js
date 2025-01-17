@@ -1,7 +1,8 @@
 const { response } = require("express");
 const cardModel = require("../../models/cardModel");
 const { responseReture } = require("../../utiles/response");
-const {mongo: {ObjectId} } = require('mongoose')
+const {mongo: {ObjectId} } = require('mongoose');
+const wishlistModel = require("../../models/wishlistModel");
 
 
 class cardController {
@@ -169,6 +170,24 @@ class cardController {
             const {quantity} = product 
             await cardModel.findByIdAndUpdate(card_id,{quantity:quantity - 1}) 
              responseReture(res,200,{message:"Qty Updated"})
+        }catch(error){
+            console.log(error.message)
+        }
+    }
+
+    add_wishlist = async(req,res) => {
+        const {slug} = req.body;
+
+        try{
+            const product = await wishlistModel.findOne({slug})
+            if(product){
+                responseReture(res,404,{error:'This Product is Already In Wishlist'})
+            }else {
+                await wishlistModel.create(req.body)
+                responseReture(res,201,{
+                    message: "Product Add to Wishlist Success"
+                })
+            }
         }catch(error){
             console.log(error.message)
         }

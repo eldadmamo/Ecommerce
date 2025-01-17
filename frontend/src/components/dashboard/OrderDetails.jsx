@@ -71,7 +71,7 @@ const OrderDetails = () => {
                             <div className='pl-4 flex flex-col'>
                                 <h2 className='text-md text-green-800'>${p.price - Math.floor((p.price * p.discount)/ 100)}</h2>
                                 <p className='line-through'>{p.price}</p>
-                                <p className='line-through'>{p.discount}%</p>
+                                <p className='line-through'>-{p.discount}%</p>  
                             </div>
 
                             </div>
