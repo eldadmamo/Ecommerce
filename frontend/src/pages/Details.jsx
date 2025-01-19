@@ -312,7 +312,7 @@ const Details = () => {
                             </button>: 
                             ''
                         }
-                        <Link to='#' className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-red-500/40 bg-[#059473] text-white">
+                        <Link to={`/dashboard/chat/${product.sellerId}`} className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-red-500/40 bg-[#059473] text-white">
                             Chat Seller
                         </Link>
                     </div>
