@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Pagination from "./Pagination";
 import Rating from "./Rating";
 import RatingTemp from "./RatingTemp";
@@ -6,14 +6,42 @@ import { Link } from "react-router-dom";
 import RatingReact from 'react-rating'
 import { CiStar } from "react-icons/ci";
 import { FaStar } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { customer_review, messageClear } from "../store/reducers/homeReducer";
+import toast from "react-hot-toast";
 
-const Reviews = () => {
+const Reviews = ({product}) => {
+
+    const dispatch  = useDispatch()
     const [parPage, setParPage] = useState(1)
     const [pageNumber, setPageNumber] = useState(10)
-    const userInfo = {};
+
+    const {userInfo} = useSelector(state => state.auth);
+    const {successMessage,errorMessage} = useSelector(state => state.home);
+
 
     const [rat,setRate] = useState('')
     const [re,setRe] = useState('')
+
+    const review_submit = (e) => {
+        e.preventDefault()
+        const obj = {
+            name: userInfo.name,
+            review: re,
+            rating: rat,
+            productId: product._id 
+        }
+        dispatch(customer_review(obj))
+    }
+
+    useEffect(()=> {
+        if(successMessage){
+            toast.success(successMessage)
+            setRe('')
+            setRate('')
+            dispatch(messageClear())
+        }
+    },[successMessage])
 
     return (
         <div className="mt-8">
@@ -145,8 +173,8 @@ const Reviews = () => {
                             fullSymbol={<span className="text-[#EDbb0E] text-4xl"><FaStar/></span>}
                             />
                         </div>
-                        <form>
-                            <textarea required className="border outline-0 p-3 w-full" name="" id="" cols="30" rows="5">
+                        <form onSubmit={review_submit}>
+                            <textarea value={re} onChange={(e) => setRe(e.target.value)} required className="border outline-0 p-3 w-full" name="" id="" cols="30" rows="5">
                             </textarea>
                         <div className="mt-2">
                             <button className="py-1 px-5 bg-indigo-500 text-white rounded-sm">Submit</button>

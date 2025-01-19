@@ -211,7 +211,7 @@ const Shipping = () => {
                                     
                                     <div className='flex justify-between items-center'>
                                         <span>Total</span>
-                                        <span className='text-lg text-[#059473]'>$490</span>
+                                        <span className='text-lg text-[#059473]'>${price + shipping_fee}</span>
                                     </div>
 
                                     <button onClick={placeOrder} disabled={res? false: true} className={`px-5 py-[6px] rounded-sm hover:shadow-red-500/50 hover:shadow-lg ${res ? 'bg-red-500': 'bg-red-300' } text-sm text-white uppercase`}>

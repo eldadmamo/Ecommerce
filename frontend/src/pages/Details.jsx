@@ -125,6 +125,38 @@ const Details = () => {
         }
     }
 
+    const buynow = () => {
+        let price = 0;
+        if(product.discount !== 0) {
+            price = product.price - Math.floor((product.price * product.discount) / 100)
+        } else {
+            price = product.price
+        }
+
+        const obj = [
+            {
+                sellerId: product.sellerId,
+                shopName: product.shopName,
+                price : quantity * (price - Math.floor((price * 5) / 100)),
+                products: [
+                    {
+                        quantity,
+                        productInfo: product
+                    }
+                ]
+            }
+        ]
+        navigate('/shipping',{
+            state:{
+                products: obj,
+                price: price * quantity,
+                shipping_fee: 50,
+                items: 1
+            }
+        })
+
+    }
+
     return (
         <div>
             <Header/>
@@ -274,7 +306,7 @@ const Details = () => {
 
                     <div className="flex gap-3">
                         {
-                            stock ? <button className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-green-500/40 bg-[#059473] text-white">
+                            product.stock ? <button onClick={buynow} className="px-8 py-3 h-[50px] cursor-pointer hover:shadow-lg hover:shadow-green-500/40 bg-[#059473] text-white">
                                 Buy Now
                             </button>: 
                             ''
@@ -301,7 +333,7 @@ const Details = () => {
 
                                 <div>
                                     {
-                                        state === 'reviews' ? <Reviews/> : 
+                                        state === 'reviews' ? <Reviews product={product}/> : 
                                         <p className="py-5 text-slate-600">
                                              Usain St. Leo Bolt is a Jamaican retired sprinter who is widely considered to be the greatest sprinter of all time. He is an eight-time Olympic gold medalist and the world record holder in the 100 metres, 200 metres, and 4 × 100 metres relay.Bolt is the only sprinter to win Olympic 100 m and 200 m titles at three consecutive Olympics (2008, 2012, and 2016).
                                         </p>
