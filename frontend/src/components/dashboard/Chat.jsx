@@ -1,22 +1,38 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineMessage, AiOutlinePlus } from 'react-icons/ai';
 import { IoSend } from 'react-icons/io5';
 import {GrEmoji} from 'react-icons/gr'
 import {Link, useParams} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { FaList } from 'react-icons/fa';
+import io from 'socket.io-client'
+import { add_friend } from '../../store/reducers/chatReducer';
 
+const socket = io('http://localhost:5000')
 
 const Chat = () => {
 
     const scrollRef = useRef()
     const dispatch = useDispatch()
+
     const {sellerId} = useParams()
+    const {userInfo} = useSelector(state => state.auth)
    
     const [text,setText] = useState('')
     const [receverMessage,setReceverMessage] = useState('')
     const [activeSeller,setActiveSeller] = useState([])
     const [show, setShow] = useState(false)
+
+    useEffect(()=> {
+        socket.emit('add_user',userInfo.id, userInfo) 
+    },[])
+
+    useEffect(()=> {
+        dispatch(add_friend({
+            sellerId: sellerId || "",
+            userId: userInfo.id
+        }))
+    },[sellerId])
 
     return (
         <div className='bg-white p-3 rounded-md'>
