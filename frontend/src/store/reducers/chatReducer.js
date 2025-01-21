@@ -16,7 +16,20 @@ export const add_friend = createAsyncThunk(
     }
 );
 
-
+export const send_message = createAsyncThunk(
+    "chat/send_message",
+    async (info, { fulfillWithValue, rejectWithValue }) => {
+        try {
+            const { data } = await api.post("/chat/customer/send-message-to-seller",info);
+            // localStorage.setItem('customerToken',data.token);
+            console.log(data)
+            // return fulfillWithValue(data);
+        } catch (error) {
+            console.log(error.message)
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
 
 export const chatReducer = createSlice({
     name: 'chat',
@@ -34,14 +47,26 @@ export const chatReducer = createSlice({
         }
     },
     extraReducers: (builder) => {
-        // builder
-        // .addCase(customer_register.pending, (state, {payload}) => {
-        //    state.loader = true;
-        // })
-        // .addCase(customer_register.rejected, (state, {payload}) => {
-        //     state.errorMessage = payload.error;
-        //     state.loader = false;
-        // })
+        builder
+        .addCase(add_friend.fulfilled, (state, {payload}) => {
+           state.fb_message = payload.messages;
+           state.currentFd = payload.currentFd;
+           state.my_friends = payload.MyFriends
+        })
+
+        .addCase(send_message.fulfilled, (state, {payload}) => {
+            let tempFriends = state.my_friends
+            let index = tempFriends.findIndex(f => f.fdId === payload.message.receverId)
+            while(index > 0){
+                let temp = tempFriends[index]
+                tempFriends[index] = tempFriends[index - 1]
+                tempFriends[index - 1] = temp
+                index--
+            }
+            state.my_friends = tempFriends;
+            state.fb_message = [...state.fb_message,payload.message];
+            state.successMessage = 'Message Send Success'
+         })
     }
 })
 
