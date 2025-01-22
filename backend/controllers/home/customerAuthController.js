@@ -67,6 +67,13 @@ class customerAuthController{
             console.log(error.message)
         }
     }
+
+    customer_logout = async (req,res) => {
+        res.cookie('customerToken',"", {
+            expires: new Date(Date.now())
+        })
+        responseReture(res,200,{message: 'User Logout Success'})
+    }
 }
 
 module.exports = new customerAuthController();
