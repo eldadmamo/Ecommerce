@@ -22,8 +22,8 @@ export const send_message = createAsyncThunk(
         try {
             const { data } = await api.post("/chat/customer/send-message-to-seller",info);
             // localStorage.setItem('customerToken',data.token);
-            console.log(data)
-            // return fulfillWithValue(data);
+            // console.log(data)
+            return fulfillWithValue(data);
         } catch (error) {
             console.log(error.message)
             return rejectWithValue(error.response.data);
@@ -44,6 +44,9 @@ export const chatReducer = createSlice({
         messageClear: (state, _) => {
             state.successMessage = ""
             state.errorMessage = ""
+        },
+        updateMessage: (state,{payload}) => {
+            state.fb_message = [...state.fb_message,payload]
         }
     },
     extraReducers: (builder) => {
@@ -64,11 +67,11 @@ export const chatReducer = createSlice({
                 index--
             }
             state.my_friends = tempFriends;
-            state.fb_message = [...state.fb_message,payload.message];
+            state.fb_message = [...state.fb_message , payload.message];
             state.successMessage = 'Message Send Success'
          })
     }
 })
 
-export const {messageClear} = chatReducer.actions
+export const {messageClear,updateMessage} = chatReducer.actions
 export default chatReducer.reducer 

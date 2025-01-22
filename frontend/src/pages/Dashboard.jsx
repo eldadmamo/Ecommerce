@@ -47,7 +47,7 @@ const Dashboard = () => {
                                 <span className='text-xl'><RiLockPasswordFill/></span>
                                 <Link to="/dashboard/change-password" className='block'>change Password</Link>
                             </li>
-                            <li className='flex justify-start items-center gap-2 py-2'>
+                            <li onClick={logout} className='flex justify-start items-center gap-2 py-2'>
                                 <span className='text-xl'><IoMdLogOut/></span>
                                 <Link to="/dashboard" className='block'>Logout</Link>
                             </li>

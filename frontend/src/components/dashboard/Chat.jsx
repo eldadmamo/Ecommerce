@@ -6,7 +6,8 @@ import {Link, useParams} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { FaList } from 'react-icons/fa';
 import io from 'socket.io-client'
-import { add_friend, send_message } from '../../store/reducers/chatReducer';
+import { add_friend, messageClear, send_message, updateMessage } from '../../store/reducers/chatReducer';
+import toast from 'react-hot-toast'
 
 const socket = io('http://localhost:5000')
 
@@ -17,10 +18,11 @@ const Chat = () => {
 
     const {sellerId} = useParams()
     const {userInfo} = useSelector(state => state.auth)
-    const {fb_message, currentFd, my_friends} = useSelector(state => state.chat)
+    const {fb_message, currentFd, my_friends,successMessage} = useSelector(state => state.chat)
    
 
     const [text,setText] = useState('')
+
     const [receverMessage,setReceverMessage] = useState('')
     const [activeSeller,setActiveSeller] = useState([])
     const [show, setShow] = useState(false)
@@ -48,6 +50,39 @@ const Chat = () => {
         }
     }
 
+    useEffect(()=> {
+        socket.on('seller_message',msg => {
+            setReceverMessage(msg)
+        })
+        socket.on('activeSeller',(sellers) => {
+            setActiveSeller(sellers)
+        })
+    },[])
+
+    useEffect(()=> {
+           if(successMessage){
+            socket.emit('send_customer_message', fb_message[fb_message.length - 1])
+            dispatch(messageClear())
+           } 
+    },[successMessage])
+
+    useEffect(()=> {
+        if(receverMessage){
+            if(sellerId === receverMessage.senderId && userInfo.id === receverMessage.receverId){
+                dispatch(updateMessage(receverMessage))
+            } else {
+                toast.success(receverMessage.senderName + " " + "Send A Message")
+                dispatch(messageClear())
+            }
+        }
+    },[receverMessage])
+
+    useEffect(()=> {
+        scrollRef.current?.scrollIntoView({behavior:'smooth'})
+    },[fb_message])
+
+    
+
     return (
         <div className='bg-white p-3 rounded-md'>
     <div className='w-full flex'>
@@ -63,7 +98,11 @@ const Chat = () => {
                 <Link to={`/dashboard/chat/${f.fdId}`} key={i}  className={`flex gap-2 justify-start items-center pl-2 py-[5px]`} >
                 <div className='w-[30px] h-[30px] rounded-full relative'>
                 
-                    <div className='w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0'></div> 
+                     {
+                        activeSeller.some(c => c.sellerId === f.fdId) && <div className='w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0'></div> 
+                     }
+
+                    
                     <img className='rounded-full' src={f.image}  alt="" />
                 </div>
                 <span>{f.name}</span>
@@ -80,6 +119,9 @@ const Chat = () => {
            
            <div className='flex gap-2'>
                 <div className='w-[30px] h-[30px] rounded-full relative'>
+                    {
+                        activeSeller.some(c => c.sellerId === currentFd.fdId) && <div className='w-[10px] h-[10px] rounded-full bg-green-500 absolute right-0 bottom-0'></div> 
+                    }
                    
                    <img className='rounded-full' src={currentFd.image} />
                 </div>
@@ -97,7 +139,7 @@ const Chat = () => {
                         fb_message.map((m,i) => {
                             if(currentFd?.fdId !== m.receverId){
                                 return  (
-            <div key={i} className='w-full flex gap-2 justify-start items-center text-[14px]'>
+            <div key={i} ref={scrollRef} className='w-full flex gap-2 justify-start items-center text-[14px]'>
                 <img className='w-[30px] h-[30px] ' src="http://localhost:5173/images/user.png" alt="" />
                 <div className='p-2 bg-purple-500 text-white rounded-md'>
                 <span>{m.message}</span>
@@ -106,7 +148,7 @@ const Chat = () => {
                                 )
                             } else {
                                 return (
-            <div key={i} className='w-full flex gap-2 justify-end items-center text-[14px]'>
+            <div key={i} ref={scrollRef} className='w-full flex gap-2 justify-end items-center text-[14px]'>
                <img className='w-[30px] h-[30px] ' src="http://localhost:5173/images/user.png" alt="" />
                <div className='p-2 bg-cyan-500 text-white rounded-md'>
                 <span>{m.message}</span>

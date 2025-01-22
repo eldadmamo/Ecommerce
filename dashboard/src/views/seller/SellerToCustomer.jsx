@@ -1,12 +1,78 @@
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { FaList } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-
+import { useDispatch } from 'react-redux';
+import { get_customer_message, get_customers, messageClear, send_message, updateMessage } from "../../store/Reducers/chatReducer";
+import { useSelector } from 'react-redux';
+import { Link, useParams } from "react-router-dom";
+import {socket} from '../../utils/utils'
+import toast from 'react-hot-toast'
 
 const SellerToCustomer = () => {
 
+    const scrollRef = useRef()
     const [show,setShow] = useState(false);
     const sellerId = 65
+
+    const {userInfo} = useSelector(state => state.auth)
+    const {customers,messages,currentCustomer,successMessage} = useSelector(state => state.chat)
+    const [receverMessage,setReceverMessage] = useState('')
+    const [text,setText] = useState()
+    const {customerId} = useParams()
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(get_customers(userInfo._id))
+    },[]) 
+
+    useEffect( () => {
+    if(customerId){ 
+        dispatch(get_customer_message(customerId))
+       }
+    })
+
+    const send = (e) => {
+        e.preventDefault()
+       
+         dispatch(send_message({
+             senderId: userInfo._id,
+             receverId: customerId,
+             text,
+             name: userInfo?.shopInfo?.shopName
+        }))
+            setText('') 
+        }
+
+    useEffect(()=> {
+       if(successMessage){
+        socket.emit('send_seller_message', messages[messages.length - 1])
+        dispatch(messageClear())
+       } 
+    },[successMessage])
+
+    useEffect(()=> {
+       socket.on('customer_message',msg => {
+            setReceverMessage(msg)
+        })
+    },[])
+
+    useEffect(()=> {
+        if(receverMessage){
+            if(sellerId === receverMessage.senderId && userInfo._id === receverMessage.receverId){
+                dispatch(updateMessage(receverMessage))
+            } else {
+                toast.success(receverMessage.senderName + " " + "Send A Message")
+                dispatch(messageClear())
+            }
+        }
+    },[receverMessage])
+
+    useEffect(()=> {
+        scrollRef.current?.scrollIntoView({behavior: 'smooth'})
+    },[messages])
+
 
     return (
         <div className="px-2 lg:px-7 py-5">
@@ -20,51 +86,28 @@ const SellerToCustomer = () => {
                                     <IoMdClose />
                                 </span>
                             </div>
-
-                            <div className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-md cursor-pointer bg-[#8288ed]`}>
-                              <div className="relative">
-                            <img className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full" alt="" src="http://localhost:5173/images/user.png" />
-                            <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0">
-                
-                            </div>
+                            
+                            {
+                                customers.map((c,i) => 
+                        <Link key={i} to={`/seller/dashboard/chat-customer/${c.fdId}`} className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-sm cursor-pointer`}>
+                                <div className="relative">
+                              <img className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full" alt="" src="http://localhost:5173/images/user.png" />
+                              <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0">
+                  
                               </div>
+                                </div>
+  
+                                <div className="flex justify-center items-start flex-col w-full">
+                                   <div className="flex justify-between items-center w-full">
+                                      <h2 className="text-base font-semibold">{c.name}</h2>
+                                   </div>
+                                </div>
+                        </Link>
+                                )
+                            }
 
-                              <div className="flex justify-center items-start flex-col w-full">
-                                 <div className="flex justify-between items-center w-full">
-                                    <h2 className="text-base font-semibold">Eldad Mamo</h2>
-                                 </div>
-                              </div>
-                            </div>
+                            
 
-                            <div className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-sm cursor-pointer `}>
-                              <div className="relative">
-                            <img className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full" alt="" src="http://localhost:5173/images/user.png" />
-                            <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0">
-                
-                            </div>
-                              </div>
-
-                              <div className="flex justify-center items-start flex-col w-full">
-                                 <div className="flex justify-between items-center w-full">
-                                    <h2 className="text-base font-semibold">Jane Foster</h2>
-                                 </div>
-                              </div>
-                            </div>
-
-                            <div className={`h-[60px] flex justify-start gap-2 items-center text-white px-2 py-2 rounded-sm cursor-pointer`}>
-                              <div className="relative">
-                            <img className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full" alt="" src="http://localhost:5173/images/user.png" />
-                            <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0">
-                
-                            </div>
-                              </div>
-
-                              <div className="flex justify-center items-start flex-col w-full">
-                                 <div className="flex justify-between items-center w-full">
-                                    <h2 className="text-base font-semibold">The Rock</h2>
-                                 </div>
-                              </div>
-                            </div>
 
                         </div>
                     </div>
@@ -79,7 +122,7 @@ const SellerToCustomer = () => {
                 
                             </div>
                                     </div>
-                                    <h2 className="text-base text-white font-semibold">Eldad</h2>
+                                    <h2 className="text-base text-white font-semibold">{currentCustomer.name}</h2>
                                 </div>
                             }
 
@@ -90,45 +133,52 @@ const SellerToCustomer = () => {
 
                         <div className="py-4">
                             <div className="bg-[#475569] h-[calc(100vh-280px)] rounded-md p-3 overflow-y-auto">
-                                <div className="w-full flex justify-start items-center">
+                                {
+                                    customerId ? messages.map((m,i) => {
+                                        if (m.senderId === customerId){
+                                            return (
+                                <div key={i} ref={scrollRef} className="w-full flex justify-start items-center">
                                     <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
-                                        <div>
-                                            <img className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]" src="http://localhost:5173/images/admin.png" alt=""/> 
-                                        </div>
-                                        <div className="flex justify-center items-start flex-col w-full bg-blue-500 shadow-lg shadow-blue-500/50  text-white py-1 px-2 rounded-sm">
-                                        <span>How are you?</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="w-full flex justify-end items-center">
-                                    <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
-                                    <div className="flex justify-center items-start flex-col w-full bg-red-500 shadow-lg shadow-red-500/50  text-white py-1 px-2 rounded-sm">
-                                        <span>are you ok?</span>
-                                        </div>
-                                        <div>
+                                    <div>
                                             <img className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]" src="http://localhost:5173/images/user.png" alt=""/> 
                                         </div>
+                                    <div className="flex justify-center items-start flex-col w-full bg-red-500 shadow-lg shadow-red-500/50  text-white py-1 px-2 rounded-sm">
+                                    
+                                        <span>{m.message}</span>
+                                        </div>
+                                        
                                         
                                     </div>
                                 </div>
-
-                                <div className="w-full flex justify-start items-center">
+                                            )
+                                        } else {
+                                            return (
+                                <div key={i} ref={scrollRef} className="w-full flex justify-end items-center">
                                     <div className="flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]">
                                         <div>
                                             <img className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]" src="http://localhost:5173/images/admin.png" alt=""/> 
                                         </div>
                                         <div className="flex justify-center items-start flex-col w-full bg-blue-500 shadow-lg shadow-blue-500/50  text-white py-1 px-2 rounded-sm">
-                                        <span>I Need some help?</span>
+                                        <span>{m.message}</span>
                                         </div>
                                     </div>
                                 </div>
+                                            )
+                                        }
+                                    }) : <div className="w-full h-full justify-center items-center text-white gap-2 flex-col">
+                                        <span>Select Customers</span>
+                                    </div>
+                                }
+
+                                
+
+                                
                                 
                             </div>
                         </div>
 
-                        <form className="flex gap-3">
-                            <input className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]" type="text" placeholder="Input Your Message" />
+                        <form onSubmit={send} className="flex gap-3">
+                            <input value={text} onChange={(e) => setText(e.target.value)} className="w-full flex justify-between px-2 border border-slate-700 items-center py-[5px] focus:border-blue-500 rounded-md outline-none bg-transparent text-[#d0d2d6]" type="text" placeholder="Input Your Message" />
                             <button className="shadow-lg bg-[#06b6d4] hover:shadow-cyan-500/50 text-semibold w-[75px] h-[35px] rounded-md text-white flex justify-center items-center">Send</button>
                         </form>
                     </div>
