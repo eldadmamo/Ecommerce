@@ -68,14 +68,14 @@ export const allNav = [
         path: '/admin/dashboard/chat-sellers'
     },
     {
-        id:9,
+        id: 9,
         title: 'Dashboard',
         icon: <AiOutlineDashboard/>,
         role :'seller',
         path: '/seller/dashboard'
     },
     {
-        id:10,
+        id: 10,
         title: 'Add Product',
         icon: <IoMdAdd/>,
         role :'seller',

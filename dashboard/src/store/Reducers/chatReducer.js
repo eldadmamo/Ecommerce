@@ -101,15 +101,13 @@ export const get_admin_message = createAsyncThunk(
 
 export const get_seller_message = createAsyncThunk(
     'chat/get_seller_message',
-    async(_,{rejectWithValue, fulfillWithValue}) => {
+    async(receverId,{rejectWithValue, fulfillWithValue}) => {
         
         try {
-            const {data} = await api.get('/chat/get-seller-messages',{withCredentials: true})
-            // localStorage.setItem('accessToken',data.token)
+            const {data} = await api.get(`/chat/get-seller-messages`, {withCredentials: true}) 
             // console.log(data)
             return fulfillWithValue(data)
-        } catch (error) {
-            // console.log(error.response.data)
+        } catch (error) { 
             return rejectWithValue(error.response.data)
         }
     }

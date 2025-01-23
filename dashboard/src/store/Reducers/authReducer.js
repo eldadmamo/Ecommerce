@@ -65,7 +65,7 @@ export const profile_image_upload = createAsyncThunk(
         }
     }
 )
-// end method 
+
 
 export const seller_register = createAsyncThunk(
     'auth/seller_register',
@@ -83,7 +83,7 @@ export const seller_register = createAsyncThunk(
     }
 )
 
-// end method 
+
 
 export const profile_info_add = createAsyncThunk(
     'auth/profile_info_add',
@@ -97,7 +97,7 @@ export const profile_info_add = createAsyncThunk(
         }
     }
 )
-// end method 
+
 
 
 
@@ -117,7 +117,7 @@ export const profile_info_add = createAsyncThunk(
         }
     }
 
-    // end Method 
+    
 
     export const logout = createAsyncThunk(
         'auth/logout',
@@ -125,7 +125,7 @@ export const profile_info_add = createAsyncThunk(
              
             try {
                 const {data} = await api.get('/logout', {withCredentials: true}) 
-                localStorage.removeItem('accessToken') 
+                localStorage.removeItem('accessToken', data.token) 
                 if (role === 'admin') {
                     navigate('/admin/login')
                 } else {
@@ -138,8 +138,6 @@ export const profile_info_add = createAsyncThunk(
             }
         }
     )
-
-        // end Method 
 
  
 export const authReducer = createSlice({

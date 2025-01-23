@@ -13,7 +13,7 @@ const SellerToAdmin = () => {
     const sellerId = 65
     
     const {userInfo} = useSelector(state => state.auth)
-    const {sellers, activeSeller,seller_admin_message,currentSeller,successMessage} = useSelector(state => state.chat)
+    const {sellers, activeSeller, seller_admin_message, currentSeller, successMessage} = useSelector(state => state.chat)
     const dispatch = useDispatch()
     const [text,setText] = useState('')
 
