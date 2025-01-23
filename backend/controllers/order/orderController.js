@@ -234,10 +234,62 @@ class orderController{
             responseReture(res,200,{message: 'order Status change success'})
         }catch(error){
             console.log('get admin status' + error.message)
-            responseReture(res,200,{message: 'internal server error'})
+            responseReture(res,500,{message: 'internal server error'})
         }
     }
 
+    get_seller_orders = async (req,res) => {
+       const {sellerId} = req.params;
+    let {page,searchValue,parPage} = req.query
+    page = parseInt(page)
+    parPage = parseInt(parPage)
+
+    const skipPage = parPage * (page - 1)
+
+    try{
+        if(searchValue){
+
+        } else {
+            const orders = await authOrderModel.find({
+                sellerId,
+            }).skip(skipPage).limit(parPage).sort({ createdAt: -1})
+            const totalOrder = await authOrderModel.find({
+                sellerId
+            }).countDocuments()
+            responseReture(res,200,{orders, })
+        }
+    }catch(error){
+        console.log('get seller Order status' + error.message)
+            responseReture(res,500,{message: 'internal server error'})
+    }
+    }
+
+    get_seller_order = async (req,res) => {
+        const {orderId} = req.params
+        
+        
+        try{
+            const order = await authOrderModel.findById(orderId)
+            responseReture(res,200,{order})
+        }catch(error){
+            console.log('get seller details error' + error.message)   
+        }
+    }
+
+    seller_order_status_update = async (req,res) => {
+        const {orderId} = req.params;
+        const {status} = req.body
+
+        try{
+            await authOrderModel.findByIdAndUpdate(orderId, {
+                delivery_status: status
+            })
+            responseReture(res,200,{message: 'order status updates successfully'})
+        } catch(error){
+            console.log('get seller Order status' + error.message)
+            responseReture(res,500,{message: 'internal server error'})
+        }
+    }
     
 
 }

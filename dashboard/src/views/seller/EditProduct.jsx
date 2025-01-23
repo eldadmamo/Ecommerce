@@ -15,7 +15,7 @@ const EditProduct = () => {
     const dispatch = useDispatch();
     const {categorys} = useSelector(state => state.category)
     const {product,loader, successMessage,errorMessage} = useSelector(state => state.product)
-
+zz
     console.log(productId)
 
     useEffect(()=> {
