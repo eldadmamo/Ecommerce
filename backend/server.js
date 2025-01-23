@@ -26,6 +26,7 @@ const io = socket(server, {
 
 var allCustomer = []
 var allSeller = []
+let admin = {}
 
 const addUser = (customerId,socketId,userInfo) => {
     const checkUser = allCustomer.some( u => u.customerId === customerId)
@@ -89,6 +90,28 @@ io.on('connection',(soc) => {
         if(seller !== undefined){
             soc.to(seller.socketId).emit('customer_message', msg) 
         }
+    })
+
+    soc.on('send_customer_admin_to_seller',(msg) => {
+        const seller = findSeller(msg.receverId)
+        if(seller !== undefined){
+            soc.to(seller.socketId).emit('receved_admin_message', msg) 
+        }
+    })
+
+    soc.on('send_customer_seller_to_admin',(msg) => {
+        if(admin.socketId){
+            soc.to(admin.socketId).emit('receved_seller_message', msg) 
+        }
+    })
+
+    soc.on('add_admin',(adminInfo) => {
+        delete adminInfo.email
+        delete adminInfo.password
+        admin  = adminInfo
+        admin.socketId = soc.id
+        io.emit('activeSeller', allSeller)
+
     })
 
     soc.on('disconnect',() => {

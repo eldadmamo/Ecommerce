@@ -18,7 +18,7 @@ const SellerToCustomer = () => {
     const {userInfo} = useSelector(state => state.auth)
     const {customers,messages,currentCustomer,successMessage} = useSelector(state => state.chat)
     const [receverMessage,setReceverMessage] = useState('')
-    const [text,setText] = useState()
+    const [text,setText] = useState('')
     const {customerId} = useParams()
 
     const dispatch = useDispatch()
@@ -60,7 +60,7 @@ const SellerToCustomer = () => {
 
     useEffect(()=> {
         if(receverMessage){
-            if(sellerId === receverMessage.senderId && userInfo._id === receverMessage.receverId){
+            if(customerId === receverMessage.senderId && userInfo._id === receverMessage.receverId){
                 dispatch(updateMessage(receverMessage))
             } else {
                 toast.success(receverMessage.senderName + " " + "Send A Message")
