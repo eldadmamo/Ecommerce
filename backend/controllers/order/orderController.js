@@ -160,6 +160,46 @@ class orderController{
         }
     }
 
+    get_admin_orders = async (req,res) => {
+        let {page,searchValue,parPage} = req.query
+        page = parseInt(page)
+        parPage = parseInt(parPage)
+
+        const skipPage = parPage * (page - 1)
+
+        try{
+            if(searchValue){
+
+            } else {
+                const orders = await customerOrder.aggregate([
+                    {
+                        $lookup:{
+                            from: 'authororders',
+                            localField: '_id',
+                            foreignField: 'orderId',
+                            as: 'suborder'
+                        }
+                    }
+                ]).skip(skipPage).limit(parPage).sort({ createdAt: -1})
+
+                const totalOrder = await customerOrder.aggregate([
+                    {
+                        $lookup:{
+                            from: 'authororders',
+                            localField: '_id',
+                            foreignField: 'orderId',
+                            as: 'suborder'
+                        }
+                    }
+                ])
+
+                responseReture(res,200,{orders, totalOrder:totalOrder.length})
+            }
+        } catch(error){
+            console.log(error)
+        }
+    }
+
 }
 
 module.exports = new orderController()
