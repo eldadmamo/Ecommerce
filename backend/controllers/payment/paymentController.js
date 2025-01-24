@@ -2,9 +2,7 @@ const stripeModel = require('../../models/stripeModel')
 const sellerModel = require('../../models/sellerModel')
 const {v4: uuidv4} = require('uuid')
 const { responseReture } = require('../../utiles/response')
-const stripe = require('stripe')
-('sk_test_51Q15zpL1p85UlzvMzG44kIhk6sxgdMW3imEkAfas3697zmNtwhyNPmkvil1vBtjN08YGWSLliy1jH5ADV3AKXujT00Z9LrqrU3')
-
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 class paymentController{
 
@@ -55,7 +53,7 @@ class paymentController{
     active_stripe_connect_account = async(req,res) =>{
         const {activeCode} = req.params
         const {id} = req
-        
+
          try {
             const userStripeInfo = await stripeModel.findOne({code: activeCode})
 
