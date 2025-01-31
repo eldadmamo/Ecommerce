@@ -5,6 +5,7 @@ const cardModel = require('../../models/cardModel')
 const moment = require('moment')
 const { responseReture } = require('../../utiles/response')
 const {mongo:{ObjectId}} = require('mongoose')
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 class orderController{
     
@@ -288,6 +289,22 @@ class orderController{
         } catch(error){
             console.log('get seller Order status' + error.message)
             responseReture(res,500,{message: 'internal server error'})
+        }
+    }
+
+    create_payment = async(req,res) => {
+        const {price} = req.body;
+        try{
+            const payment = await stripe.paymentIntents.create({
+                amount: price * 100,
+                currency: 'usd',
+                automatic_payment_methods:{
+                    enabled: true
+                }
+            })
+            responseReture(res,200,{clientSecret: payment.client_secret})
+        }catch(error){
+            console.log(error.message);
         }
     }
     

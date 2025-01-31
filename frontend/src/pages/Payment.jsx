@@ -8,7 +8,6 @@ const Payment = () => {
 
     const {state:{price,items,orderId}} = useLocation()
     const  [paymentMethod,setPaymentMethod] = useState('stripe')
-    
 
     return (
         <div>
@@ -37,7 +36,7 @@ const Payment = () => {
 
                            {
                             paymentMethod === 'stripe' && <div>
-                                <Stripe orderId={orderId}/>
+                                <Stripe orderId={orderId} price={price} />
                             </div>
                            }
 
