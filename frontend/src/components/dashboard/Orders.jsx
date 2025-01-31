@@ -70,7 +70,7 @@ const Orders = () => {
                                         o.payment_status !== 'paid' && 
                                         <span onClick={() => redirect(o)} className='bg-green-200 text-green-800 text-md font-semibold mr-2 px-3 py-[2px] rounded cursor-pointer'>Pay Now</span>
                                     }
-                                        </td>
+                            </td>
                                     </tr>
                             )}    
                         </tbody>

@@ -1,6 +1,8 @@
 const authOrderModel = require('../../models/authOrder')
 const customerOrder = require('../../models/customerOrder')
 const cardModel = require('../../models/cardModel')
+const myShopWallet = require('../../models/myShopWallet')
+const sellerWallet = require('../../models/customerModel')
 
 const moment = require('moment')
 const { responseReture } = require('../../utiles/response')
@@ -305,6 +307,44 @@ class orderController{
             responseReture(res,200,{clientSecret: payment.client_secret})
         }catch(error){
             console.log(error.message);
+        }
+    }
+
+    order_confirm = async (req,res) => {
+        const {orderId} = req.params;
+        try{
+            await customerOrder.findByIdAndUpdate(orderId,{payment_status: 'paid'})
+            await authOrderModel.updateMany({orderId: new ObjectId(orderId)},{
+                payment_status: 'paid',
+                delivery_status: 'pending'
+            })
+            const cuOrder = await customerOrder.findById(orderId)
+
+            const auOrder = await authOrderModel.find({
+                orderId: new ObjectId(orderId)
+            })
+
+            const time = moment(Date.now()).format('l') 
+            const splitTime = time.split('/')
+
+            await myShopWallet.create({
+                amount: cuOrder.price,
+                month: splitTime[0],
+                year: splitTime[2]
+            })
+
+            for(let i=0; i < auOrder.length; i++){
+               await sellerWallet.create({
+                sellerId: auOrder[i].sellerId.toString(),
+                amount: auOrder[i].price,
+                month: splitTime[0],
+                year: splitTime[2]
+             })
+            }
+            responseReture(res, 200, {message: 'Success'})
+
+        }catch(error){
+            console.log(error.message)
         }
     }
     

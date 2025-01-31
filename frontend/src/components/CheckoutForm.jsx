@@ -12,7 +12,7 @@ const CheckoutForm = ({orderId}) => {
     const [isLoading, setIsLoading] = useState(false)
 
     const PaymentElementOptions = {
-        layout: 'tabs'
+        loyout: 'tabs'
     }
 
     const submit = async (e) => {
@@ -48,6 +48,7 @@ const CheckoutForm = ({orderId}) => {
                 }
             </span>
             </button>
+            {message && <div>{message}</div>}
         </form>
     );
 };
