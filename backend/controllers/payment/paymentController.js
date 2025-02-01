@@ -2,8 +2,8 @@ const stripeModel = require('../../models/stripeModel')
 const sellerModel = require('../../models/sellerModel')
 const {v4: uuidv4} = require('uuid')
 const { responseReture } = require('../../utiles/response')
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
+const stripe = require('stripe')('sk_test_51Q15zpL1p85UlzvMzG44kIhk6sxgdMW3imEkAfas3697zmNtwhyNPmkvil1vBtjN08YGWSLliy1jH5ADV3AKXujT00Z9LrqrU3');
+const {mongo:{ObjectId}} = require('mongoose')
 const sellerWallet = require('../../models/sellerWallet')
 const withdrawRequest = require('../../models/withdrawRequest')
 
@@ -153,7 +153,50 @@ class paymentController{
         } catch(error){
             responseReture(res, 500, {message: "Internal Server Error"})
         }
+
+    }
+
+    get_payment_request = async (req,res) => {
+        try{
+            const withdrawalRequest = await withdrawRequest.find({status: 'pending'})
+
+            responseReture(res, 200, {withdrawalRequest})
+        } catch(error){
+            console.log(error.message)
+            responseReture(res, 500, {message: 'Interval Server Error'})
+        }
+    }
+
+    payment_request_confirm = async (req, res) => {
+        const {paymentId} = req.body;
+
+        try {
+            
+            const payment = await withdrawRequest.findById(paymentId);
+            
+            const {stripeId} = await stripeModel.findOne({
+                sellerId: new ObjectId(payment.sellerId)
+            });
+    
+            
+            const amount = Math.round(payment.amount * 100); 
+    
+           
+            await stripe.transfers.create({
+                amount: amount, 
+                currency: 'usd',
+                destination: stripeId
+            });
+    
+            
+            await withdrawRequest.findByIdAndUpdate(paymentId, { status: 'success' });
+    
         
+            responseReture(res, 200, { payment, message: 'Request Confirm Success' });
+        } catch (error) {
+            console.log(error);
+            responseReture(res, 500, { message: 'Internal Server Error' });
+        }
     }
 
 }

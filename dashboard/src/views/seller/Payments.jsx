@@ -55,6 +55,28 @@ const Payments = () => {
        )
     }
 
+
+    const Rows = ({index,style}) => {
+        return (
+         <div style={style} className="flex text-sm text-white font-medium">
+             <div className="w-[25%] p-2 whitespace-nowrap">
+                 {index + 1}
+             </div>
+             <div className="w-[25%] p-2 whitespace-nowrap">
+                 ${successWithdraws[index]?.amount}
+             </div>
+             <div className="w-[25%] p-2 whitespace-nowrap">
+                 <span className="py-[1px] px-[5px] bg-slate-300 text-blue-500 rounded-md text-sm">
+                 {successWithdraws[index]?.status}
+                 </span>
+             </div>
+             <div className="w-[25%] p-2 whitespace-nowrap">
+                 {moment(successWithdraws[index]?.createdAt).format('LL')}
+             </div>
+         </div>
+        )
+     }
+
     
 
     useEffect(()=> {
@@ -196,11 +218,11 @@ const Payments = () => {
                                                             style={{minWidth: '340px'}}
                                                             className="List"
                                                             height={350}
-                                                            itemCount={10}
+                                                            itemCount={successWithdraws.length}
                                                             itemSize={35}
                                                             outerElementType={outerElementType}
                                                             >
-                                                                {Row} 
+                                                                {Rows} 
                                                             </List>
                                                         }
                                                     </div>
