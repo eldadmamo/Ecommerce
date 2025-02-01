@@ -2,7 +2,7 @@ const authOrderModel = require('../../models/authOrder')
 const customerOrder = require('../../models/customerOrder')
 const cardModel = require('../../models/cardModel')
 const myShopWallet = require('../../models/myShopWallet')
-const sellerWallet = require('../../models/customerModel')
+const sellerWallet = require('../../models/sellerWallet')
 
 const moment = require('moment')
 const { responseReture } = require('../../utiles/response')
