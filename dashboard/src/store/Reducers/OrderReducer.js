@@ -35,7 +35,7 @@ export const get_admin_order = createAsyncThunk(
 
 export const admin_order_status_update = createAsyncThunk(
     'order/admin_order_status_update',
-    async( {orderId,info} ,{rejectWithValue, fulfillWithValue}) => {
+    async( {orderId, info} ,{rejectWithValue, fulfillWithValue}) => {
         
         try {
             const {data} = await api.put(`/admin/order-status/update/${orderId}`,info,{withCredentials: true}) 

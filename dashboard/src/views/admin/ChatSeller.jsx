@@ -17,6 +17,8 @@ const ChatSeller = () => {
     const [receverMessage, setReceverMessage] = useState('')
     const {userInfo} = useSelector(state => state.auth)
     const {sellers, successMessage, activeSeller,seller_admin_message,currentSeller} = useSelector(state => state.chat)
+    
+
     const dispatch = useDispatch()
     
 
