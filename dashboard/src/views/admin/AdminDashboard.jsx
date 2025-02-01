@@ -5,7 +5,7 @@ import Chart from 'react-apexcharts'
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { get_admin_dashboard_data } from "../../store/Reducers/dashboardReducer";
+import { get_seller_dashboard_data } from "../../store/Reducers/dashboardReducer";
 import seller from '../../../public/images/user.png'
 import moment from "moment";
 
@@ -17,7 +17,7 @@ const AdminDashboard = () => {
     const { userInfo } = useSelector(state => state.auth)
 
     useEffect(() =>  {
-        dispatch(get_admin_dashboard_data())
+        dispatch(get_seller_dashboard_data())
     },[])
 
     const state = {
