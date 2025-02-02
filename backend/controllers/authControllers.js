@@ -8,7 +8,6 @@ const sellerModel = require('../models/sellerModel');
 const sellerCustomerModel = require('../models/chat/sellerCustomerModel');
 const formidable = require('formidable');
 const cloudinary = require("cloudinary").v2;
- 
 
 class authControllers{
     
