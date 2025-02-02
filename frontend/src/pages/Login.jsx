@@ -99,8 +99,20 @@ const Login = () => {
                         </div>
 
                         <div className="text-center text-slate-600 pt-1">
-                            <p>Don't Have An Account ? <Link className="text-blue-500" to='/register'>Login</Link></p>
+                            <p>Don't Have An Account ? <Link className="text-blue-500" to='/register'>Register</Link></p>
                         </div>
+
+                        <a href="http://localhost:5174/login">
+                        <div className="px-8 w-full py-2 bg-[#02e3e0] shadow hover:shadow-indigo-500/50 text-white rounded-md flex justify-center items-center gap-2 mb-3">
+                        Login As a Seller
+                        </div>
+                        </a>
+
+                        <a href="http://localhost:5174/register">
+                        <div className="px-8 w-full py-2 bg-[#ad2cc4] shadow hover:shadow-indigo-500/50 text-white rounded-md flex justify-center items-center gap-2 mb-3">
+                        Register As a Seller
+                        </div>
+                        </a>
 
                     </div>
 

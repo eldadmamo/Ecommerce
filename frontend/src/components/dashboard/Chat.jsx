@@ -86,7 +86,8 @@ const Chat = () => {
     return (
         <div className='bg-white p-3 rounded-md'>
     <div className='w-full flex'>
-        <div className={`w-[230px] md-lg:absolute bg-white md-lg:h-full -left-[350px]'}`}>
+        
+        <div className={`w-[230px] md-lg:absolute bg-white md-lg:h-full -left-[350px] ${show ? '-left-0':'-left-[350px]'}'}`}>
             <div className='flex justify-center gap-3 items-center text-slate-600 text-xl h-[50px]'>
                 <span><AiOutlineMessage /></span>
                 <span>Message</span>
@@ -112,7 +113,7 @@ const Chat = () => {
             )}
             </div>
         </div>
-        <div className='w-[calc(100%-230px)]'>
+        <div className='w-[calc(100%-230px)] md-lg:w-full'>
             {
                 currentFd ? <div className='w-full h-full'>
                 <div className='flex justify-between gap-3 items-center text-slate-600 text-xl h-[50px]'>
@@ -127,7 +128,7 @@ const Chat = () => {
                 </div>
                 <span>{currentFd.name}</span>
              </div> 
-                <div  className='w-[35px] h-[35px] hidden md-lg:flex cursor-pointer rounded-sm justify-center items-center bg-sky-500 text-white'>
+                <div onClick={() => setShow(!show) }  className='w-[35px] h-[35px] hidden md-lg:flex cursor-pointer rounded-sm justify-center items-center bg-sky-500 text-white'>
                     <FaList/>
                 </div>      
                
@@ -187,7 +188,7 @@ const Chat = () => {
         </div>
         </div> 
         : 
-        <div className='w-full h-[400px] flex justify-center items-center text-lg ont-bold text-slate-600'>
+        <div onClick={() => setShow(true)} className='w-full h-[400px] flex justify-center items-center text-lg ont-bold text-slate-600'>
         <span>Select Seller</span>
     </div>
             }
