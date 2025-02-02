@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/api";
-import { jwtDecode } from "jwt-decode";
 
 export const add_banner = createAsyncThunk(
     'banner/add_banner',
@@ -20,12 +19,28 @@ export const add_banner = createAsyncThunk(
 )
 
 export const get_banner = createAsyncThunk(
-    'banner/add_banner',
+    'banner/get_banner',
     async(productId,{rejectWithValue, fulfillWithValue}) => {
         
         try {
              
             const {data} = await api.get(`/banner/get/${productId}`,
+                {withCredentials: true}) 
+            //  console.log(data)
+            return fulfillWithValue(data)
+        } catch (error) {
+            // console.log(error.response.data)
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const update_banner = createAsyncThunk(
+    'banner/update_banner',
+    async({bannerId, info},{rejectWithValue, fulfillWithValue}) => {
+        
+        try {
+            const {data} = await api.put(`/banner/update/${bannerId}`,info,
                 {withCredentials: true}) 
             //  console.log(data)
             return fulfillWithValue(data)
@@ -70,6 +85,19 @@ export const bannerReducer = createSlice({
 
         .addCase(get_banner.fulfilled, (state, { payload }) => {
             state.banner = payload.banner;
+        })
+
+        .addCase(update_banner.pending, (state, { payload }) => {
+            state.loader = true;
+        })
+        .addCase(update_banner.rejected, (state, { payload }) => {
+            state.loader = false; 
+            state.errorMessage = payload.error;
+        }) 
+        .addCase(update_banner.fulfilled, (state, { payload }) => {
+            state.loader = false;
+            state.successMessage = payload.message
+            state.banner = payload.banner
         })
 
     }

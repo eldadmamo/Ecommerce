@@ -1,11 +1,22 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { get_banners } from "../store/reducers/homeReducer";
 
 
 const Banner = () => {
+
+    const dispatch = useDispatch()
+    const {banners} = useSelector(state => state.home)
+
+
+    useEffect(()=> {
+        dispatch(get_banners())
+    },[])
+
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
         Autoplay({ delay: 3000, stopOnInteraction: false }),
     ]);
@@ -22,12 +33,12 @@ const Banner = () => {
                         {/* Carousel */}
                         <div className="overflow-hidden" ref={emblaRef}>
                             <div className="flex">
-                                {[1, 2, 3, 4, 5].map((img, i) => (
-                                    <div key={i} className="flex-[0_0_100%]">
-                                        <Link to="#" className="block w-full">
+                                {
+                               banners.length > 0 && banners.map((b, i) => (
+                                    <div  className="flex-[0_0_100%]">
+                                        <Link key={i} to={`/product/details/${b.link}`} className="block w-full">
                                             <img
-                                                src={`http://localhost:5173/images/banner/${img}.jpg`}
-                                                alt={`Banner ${img}`}
+                                                src={b.banner}
                                                 className="w-full h-[400px] object-cover"
                                             />
                                         </Link>

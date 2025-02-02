@@ -5,7 +5,7 @@ import { PropagateLoader } from "react-spinners";
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { add_banner,get_banner } from '../../store/Reducers/bannerReducer';
+import { add_banner,get_banner, update_banner } from '../../store/Reducers/bannerReducer';
 import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { messageClear } from '../../store/Reducers/productReducer';
@@ -16,7 +16,6 @@ const AddBanner = () => {
     const {productId} = useParams()
     const dispatch = useDispatch()
     const {loader,successMessage, errorMessage, banner} = useSelector(state => state.banner)
-
 
     const [imageShow, setImageShow] = useState('')
     const [image, setImage] = useState('')
@@ -58,6 +57,9 @@ const AddBanner = () => {
 
     const update = (e) => {
         e.preventDefault()
+        const formData = new FormData()
+        formData.append('mainban', image)
+        dispatch(update_banner({info: formData, bannerId: banner._id} ))
     }
 
     return (
@@ -119,7 +121,7 @@ const AddBanner = () => {
 
                 <button disabled={loader ? true : false} className="bg-red-500 w-[280px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
                     {
-                    loader ? <PropagateLoader color="#fff" cssOverride={overrideStyle}/>:  'Add Banner'
+                    loader ? <PropagateLoader color="#fff" cssOverride={overrideStyle}/>:  'Update Banner'
                     }
                 </button>
             </form>
