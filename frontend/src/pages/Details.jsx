@@ -23,7 +23,7 @@ const Details = () => {
 
     const {slug} = useParams()
     const {userInfo} = useSelector(state => state.auth)
-    const {product,relatedProducts,moreProducts} = useSelector(state => state.home)
+    const {product,relatedProducts,moreProducts,totalReview} = useSelector(state => state.home)
     const {errorMessage,successMessage} = useSelector(state => state.card)
 
     useEffect(()=> {
@@ -32,7 +32,7 @@ const Details = () => {
 
     const images = [1,2,3,4,5,6];
     const [image, setImages] = useState('')
-    const discount = 10;
+    // const discount = 10;
     const stock = 1;
     const [state,setState] = useState('reviews')
 
@@ -228,14 +228,14 @@ const Details = () => {
                             <div className="flex text-xl">
                                 <Rating ratings={4.5}/>
                             </div>
-                            <span className="text-green-500">(24 reviews)</span>
+                            <span className='text-green-500'>({totalReview} reviews) </span>
                         </div>
 
                         <div className="text-2xl text-red-500 font-bold flex gap-3">
                             {
                                product.discount !== 0 ? <>
                                 <h2 className="line-through">Price: ${product.price}</h2>
-                                <h2>${product.price - Math.floor((product.price * product.discount) / 100)}(-{discount}%)</h2>
+                                <h2>${product.price - Math.floor((product.price * product.discount) / 100)}(-{product.discount}%)</h2>
                                 </>: <h2>Price : ${product.price}</h2>
                             }
                         </div>

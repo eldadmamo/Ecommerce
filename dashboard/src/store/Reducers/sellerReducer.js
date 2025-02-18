@@ -1,6 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
+
+export const get_category = createAsyncThunk(
+    'category/get_category',
+    async({ parPage,page,searchValue },{rejectWithValue, fulfillWithValue}) => {
+
+        try {
+
+            const {data} = await api.get(`/category-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,{withCredentials: true}) 
+            console.log(data)
+            return fulfillWithValue(data)
+        } catch (error) {
+            // console.log(error.response.data)
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
 export const get_seller_request = createAsyncThunk(
     'seller/get_seller_request',
     async({ parPage,page,searchValue },{rejectWithValue, fulfillWithValue}) => {

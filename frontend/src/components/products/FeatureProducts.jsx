@@ -15,7 +15,6 @@ const FeatureProducts = ({products}) => {
     const {userInfo} = useSelector(state => state.auth)
     const {errorMessage,successMessage} = useSelector(state => state.card)
 
-
     const add_card = (id) => {
         if(userInfo){
             dispatch(add_to_card({
@@ -86,7 +85,7 @@ const FeatureProducts = ({products}) => {
                                 <li onClick={()=> add_wishlist(index)} className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all'>
                                     <FaRegHeart />
                                 </li>
-                                <Link to='/product/details/new' className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all'>
+                                <Link to={`/product/details/${index.slug}`} className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all'>
                                     <FaEye />
                                 </Link>
                                 <li onClick={()=> add_card(index._id)} className='w-[38px] h-[38px] cursor-pointer bg-white flex justify-center items-center rounded-full hover:bg-[#059473] hover:text-white hover:rotate-[720deg] transition-all'>

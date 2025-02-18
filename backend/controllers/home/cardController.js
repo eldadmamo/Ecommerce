@@ -43,8 +43,6 @@ class cardController {
 
     get_card_products = async (req,res) => {
         const co = 5;
-
-
        const {userId} = req.params;
        try{
         const card_products = await cardModel.aggregate([
@@ -176,19 +174,20 @@ class cardController {
     }
 
     add_wishlist = async(req,res) => {
-        const {slug} = req.body;
-
-        try{
+        const { slug } = req.body
+        try {
             const product = await wishlistModel.findOne({slug})
-            if(product){
-                responseReture(res,404,{error:'This Product is Already In Wishlist'})
-            }else {
-                await wishlistModel.create(req.body)
-                responseReture(res,201,{
-                    message: "Product Add to Wishlist Success"
-                })
-            }
-        }catch(error){
+                if (product) {
+                    responseReture(res, 404 ,{
+                        error: 'Product Is Already In Wishlist'
+                    })
+                } else {
+                    await wishlistModel.create(req.body)
+                    responseReture(res, 201 , {
+                        message: 'Product Add to Wishlist Success'
+                    })
+                }
+        } catch (error) {
             console.log(error.message)
         }
     }
@@ -215,7 +214,7 @@ class cardController {
             const wishlist = await wishlistModel.findByIdAndDelete(wishlistId);
             responseReture(res,200,{
                 message : 'Wishlist Product Removed Successfully',
-                wishlistId
+                // wishlistId
             },wishlist)
 
         }catch(error){

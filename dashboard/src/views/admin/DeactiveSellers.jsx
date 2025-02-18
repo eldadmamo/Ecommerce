@@ -26,78 +26,80 @@ const DeactiveSellers = () => {
 
     return (
         <div className="px-2 lg:px-7 pt-5">
-            
-            <h1 className="text-[20px] font-bold mb-3">Deactive Sellers</h1>
-            
-            <div className="w-full p-4 bg-[#6a5fdf] rounded-md">
-
-            <div className="flex justify-between items-center">
-                    <select onChange={(e)=> setParPage(parseInt(e.target.value))} className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]">
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                    </select>
-                    <input  onChange={e => setSearchValue(e.target.value)} className="px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]" type="text" placeholder="search"/>
-            </div>
-
-            <div className="relative overflow-x-auto">
-                                    <table className="w-full text-sm text-left text-[#d0d2d6] ">
-                                        <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
-                                        <tr>
-                                            <th scope="col" className="py-3 px-4">No</th>
-                                            <th scope="col" className="py-3 px-4">Image</th>
-                                            <th scope="col" className="py-3 px-4">Name</th>
-                                            <th scope="col" className="py-3 px-4">Email</th>
-                                            <th scope="col" className="py-3 px-4">Payment Status</th>
-                                            <th scope="col" className="py-3 px-4">Status</th>
-                                            <th scope="col" className="py-3 px-4">Action</th>
-                                        </tr>
-                                        </thead>
-                
-                                        <tbody>
-                                        {
-                                           sellers.map((d,i) => 
-                                           <tr key={i}>
-                                            <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">{i+1}</td>
-                                            <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                                                <img className="w-[45px] h-[45px] rounded-sm" src={d.image}  alt="" />
-                                            </td>
-                                            <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">{d.name}</td>
-                                            <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">{d.shopInfo?.shopName}</td>
-                                            <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                                                <span>{d.payment}</span>
-                                            </td>
-                                            <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">{d.email}</td>
-                                            <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">{d.status}</td>
-                                            <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">{d.shopInfo?.district}</td>
-
-                                            <td scope="row" className="py-1 px-4 font-medium whitespace-nowrap">
-                                                <div className="flex justify-start items-center gap-4">
-                                                <Link to={`/admin/dashboard/sellers/details/${d._id}`} className="p-[6px] bg-green-500 rounded hover:shadow-lg hover:shadow-green-500/50">
-                                                <FaEye />
-                                                </Link>
-                                                
-                                                </div>
-                                                </td>
-                                            </tr>
-                                           )
-                                           }                       
-                                        </tbody>
-                                    </table>
-                </div>
-            
-        <div className="w-full flex justify-end mt-4 bottom-4 right-4">
-            <Pagination 
-                pageNumber = {currentPage}
-                setPageNumber = {setCurrentPage}
-                totalItem = {totalSeller}
-                parPage = {parPage}
-                showItem = {3}
-                />
-         </div>
-
-            </div>
+    <h1 className="text-[22px] font-bold mb-4 text-gray-800">Deactive Sellers</h1>
+    
+    <div className="w-full p-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-md shadow-lg">
+        <div className="flex justify-between items-center mb-4">
+            <select onChange={(e)=> setParPage(parseInt(e.target.value))} className="px-4 py-2 focus:border-purple-300 outline-none bg-white border border-gray-300 rounded-md text-gray-700 shadow-sm">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+            </select>
+            <input onChange={e => setSearchValue(e.target.value)} className="px-4 py-2 focus:border-purple-300 outline-none bg-white border border-gray-300 rounded-md text-gray-700 shadow-sm" type="text" placeholder="Search"/>
         </div>
+
+        <div className="relative overflow-x-auto">
+            <table className="w-full text-sm text-left bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+                <thead className="text-xs text-white uppercase  border-b">
+                    <tr>
+                        <th scope="col" className="py-3 px-4">No</th>
+                        <th scope="col" className="py-3 px-4">Image</th>
+                        <th scope="col" className="py-3 px-4">Name</th>
+                        <th scope="col" className="py-3 px-4">Status</th>
+                        <th scope="col" className="py-3 px-4">Action</th>
+                        <th scope="col" className="py-3 px-4">Email</th>
+                        <th scope="col" className="py-3 px-4">Payment Status</th>
+                        <th scope="col" className="py-3 px-4">Status</th>
+                        <th scope="col" className="py-3 px-4">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {
+                        sellers.map((d, i) => 
+                        <tr key={i} className=" bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">
+                            <td className="py-2 px-4 font-medium text-white">{i+1}</td>
+                            <td className="py-2 px-4">
+                                <img className="w-[45px] h-[45px] rounded-full border border-gray-200 shadow-sm" src={d.image} alt="" />
+                            </td>
+                            <td className="py-2 px-4 font-medium text-white">{d.name}</td>
+                            <td className="py-2 px-4 text-white">{d.shopInfo?.shopName}</td>
+                            <td className="py-2 px-4">
+                                <span className="inline-block px-2 py-1 text-xs font-semibold text-white bg-green-500 rounded-md">{d.payment}</span>
+                            </td>
+                            <td className="py-2 px-4 text-white">{d.email}</td>
+                            <td className="py-2 px-4">
+                                <span className={`inline-block px-2 py-1 text-xs font-semibold rounded-md ${d.status === 'Active' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
+                                    {d.status}
+                                </span>
+                            </td>
+                            <td className="py-2 px-4 text-white">{d.shopInfo?.district}</td>
+                            <td className="py-2 px-4">
+                                <div className="flex items-center gap-3">
+                                    <Link to={`/admin/dashboard/sellers/details/${d._id}`} className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 shadow-md">
+                                        <FaEye />
+                                    </Link>
+                                </div>
+                            </td>
+                        </tr>
+                        )
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div className="w-full flex justify-end mt-4">
+            <Pagination 
+                pageNumber={currentPage}
+                setPageNumber={setCurrentPage}
+                totalItem={totalSeller}
+                parPage={parPage}
+                showItem={3}
+            />
+        </div>
+    </div>
+</div>
+
     );
 };
 

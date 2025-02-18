@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import api from "../../api/api";
 import { jwtDecode } from 'jwt-decode';
-import Wishlist from './../../components/dashboard/Wishlist';
-
 
 export const add_to_card = createAsyncThunk(
     "card/add_to_card",
@@ -130,7 +128,7 @@ export const cardReducer = createSlice({
         errorMessage : '',
         successMessage: '', 
         shipping_fee: 0,
-        outofstock_products:[]
+        outofstock_products: []
     },
     reducers: {
         messageClear: (state, _) => {
@@ -181,12 +179,12 @@ export const cardReducer = createSlice({
 
         .addCase(add_to_wishlist.fulfilled, (state, {payload}) => {
             state.successMessage = payload.message;
-            state.wishlist_count = payload.wishlist_count > 0 ? state.wishlist_count + 1: 1
+            state.wishlist_count = payload.wishlist_count > 0 ? state.wishlist_count + 1 : 1
         })
 
         .addCase(get_wishlist_products.fulfilled, (state, {payload}) => {
             state.wishlist = payload.wishlists;
-            state.wishlist_count = payload.wishlistCount > 0 ? state.wishlist_count + 1: 1
+            state.wishlist_count = payload.wishlistCount
         })
 
         .addCase(remove_wishlist.fulfilled, (state, {payload}) => {

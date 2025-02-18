@@ -6,6 +6,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { get_card_products,delete_card_product, messageClear,quantity_inc,quantity_dec } from '../store/reducers/cardReducer';
 import { toast } from 'react-hot-toast';
+import { useState } from 'react';
 
 const Card = () => {
 
@@ -17,6 +18,11 @@ const Card = () => {
     const navigate = useNavigate();
     // const card_products = [1,2];
     // const outOfStock = [1,2];
+
+
+    const [coupon, setCoupon] = useState('');
+    const [discount, setDiscount] = useState(0); 
+    const [isCouponValid, setIsCouponValid] = useState(false); 
 
     useEffect(()=> {
         dispatch(get_card_products(userInfo.id))
@@ -55,6 +61,30 @@ const Card = () => {
             dispatch(quantity_dec(card_id))
         } 
     }
+
+    const applyCoupon = () => {
+        if (coupon === 'FOURAT') { 
+            if((price + shipping_fee) >= 200 && (price + shipping_fee) < 5000) {
+                setDiscount(Math.min(shipping_fee, (price + shipping_fee))); 
+                setIsCouponValid(true);
+                toast.success('"Coupon successfully applied!"');
+            } 
+            else if ((price + shipping_fee) >= 5000) {
+                setDiscount(Math.min(400 + shipping_fee, (price + shipping_fee))); 
+                setIsCouponValid(true);
+                toast.success('"Coupon applied successfully!"');
+            } 
+            else {
+                setDiscount(0); 
+                setIsCouponValid(false);
+                toast.error("Coupon not applied, Price < 200!");
+            }
+        } else {
+            setDiscount(0);
+            setIsCouponValid(false);
+            toast.error("Invalid coupon!");
+        }
+    };
 
 
     return (
@@ -197,13 +227,18 @@ const Card = () => {
                                         <span>${shipping_fee}</span>
                                     </div>
                                     <div className='flex gap-2'>
-                                        <input className='w-full px-3 py-2 border border-slate-200 outline-0 focus:border-green-500 rounded-sm' type='text' placeholder='Input VauChar Coupons'/>
-                                        <button className='px-5 py-[1px] bg-[#059473] text-white rounded-sm uppercase text-sm'>Apply</button>
+                                        <input className='w-full px-3 py-2 border border-slate-200 outline-0 focus:border-green-500 rounded-sm' 
+                                        type='text' 
+                                        value={coupon} 
+                                        onChange={(e) => setCoupon(e.target.value)} 
+                                        placeholder='Input VauChar Coupons'/>
+                                        <button onClick={applyCoupon} className='px-5 py-[1px] bg-[#059473] text-white rounded-sm uppercase text-sm'>Apply</button>
 
                                     </div>
+                                    {isCouponValid && <p className='text-green-500'>Coupon Apply: -${discount}</p>}
                                     <div className='flex justify-between items-center'>
                                         <span>Total</span>
-                                        <span className='text-lg text-[#059473]'>${price + shipping_fee}</span>
+                                        <span className='text-lg text-[#059473]'>${(price + shipping_fee) - discount}</span>
                                     </div>
 
                                     <button onClick={redirect} className='px-5 py-[6px] rounded-sm hover:shadow-red-500/50 hover:shadow-lg bg-red-500 text-sm text-white uppercase'>

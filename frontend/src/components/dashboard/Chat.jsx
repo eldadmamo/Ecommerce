@@ -77,7 +77,7 @@ const Chat = () => {
         }
     },[receverMessage])
 
-    useEffect(()=> {
+    useEffect(() => {
         scrollRef.current?.scrollIntoView({behavior:'smooth'})
     },[fb_message])
 

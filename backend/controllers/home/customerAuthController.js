@@ -53,7 +53,7 @@ class customerAuthController{
                         email: customer.email,
                         method: customer.method 
                     })
-                    res.cookie('customerToken',token,{
+                    res.cookie('customerToken',token, {
                         expires: new Date(Date.now() + 7 *24*60*60*1000)
                     })
                     responseReture(res,201,{message: 'User Login Success', token})
@@ -65,6 +65,7 @@ class customerAuthController{
             }
         } catch(error){
             console.log(error.message)
+            responseReture(res, 500, { error: 'Internal Server Error' });
         }
     }
 

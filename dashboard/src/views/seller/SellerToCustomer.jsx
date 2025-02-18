@@ -25,13 +25,13 @@ const SellerToCustomer = () => {
 
     useEffect(() => {
         dispatch(get_customers(userInfo._id))
-    },[]) 
+    },[[userInfo._id]]) 
 
     useEffect( () => {
     if(customerId){ 
         dispatch(get_customer_message(customerId))
        }
-    })
+    },[customerId])
 
     const send = (e) => {
         e.preventDefault()
@@ -50,12 +50,15 @@ const SellerToCustomer = () => {
         socket.emit('send_seller_message', messages[messages.length - 1])
         dispatch(messageClear())
        } 
-    },[successMessage])
+    },[successMessage,messages])
 
     useEffect(()=> {
        socket.on('customer_message',msg => {
             setReceverMessage(msg)
         })
+        return () => {
+            socket.off('customer_message') 
+        }
     },[])
 
     useEffect(()=> {
@@ -76,10 +79,10 @@ const SellerToCustomer = () => {
 
     return (
         <div className="px-2 lg:px-7 py-5">
-            <div className="w-full bg-[#6a5fdf] px-4 py-4 rounded-md h-[calc(100vh-140px)]">
+            <div className="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 px-4 py-4 rounded-md h-[calc(100vh-140px)]">
                 <div className="flex w-full h-full relative">
                     <div className={`w-[280px] h-full absolute z-10 ${show ? '-left-[16px]':'-left-[336px]'} md:left-0 md:relative transition-all`}>
-                        <div className="w-full h-[calc(100vh-177px)] bg-[#9e97e9] md:bg-transparent overflow-y-auto">
+                        <div className="w-full h-[calc(100vh-177px)] bg-indigo-500 md:bg-transparent overflow-y-auto">
                             <div className="flex text-xl justify-between items-center p-4 md:p-0 md:px-3 md:pb-3 text-white">
                                 <h2>Customers</h2>
                                 <span onClick={()=> setShow(!show)} className="block cursor-pointer md:hidden">
@@ -93,7 +96,6 @@ const SellerToCustomer = () => {
                                 <div className="relative">
                               <img className="w-[38px] h-[38px] border-white border-2 max-w-[38px] p-[2px] rounded-full" alt="" src="http://localhost:5173/images/user.png" />
                               <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0">
-                  
                               </div>
                                 </div>
   
@@ -106,9 +108,6 @@ const SellerToCustomer = () => {
                                 )
                             }
 
-                            
-
-
                         </div>
                     </div>
 
@@ -117,10 +116,9 @@ const SellerToCustomer = () => {
                             {
                                 sellerId && <div className="flex justify-start items-center gap-3">
                                     <div className="relative">
-                                    <img className="w-[45px] h-[45px] border-green border-2 max-w-[45px] p-[2px] rounded-full" alt="" src="http://localhost:5173/images/user.png" />
-                            <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0">
-                
-                            </div>
+                                    <img className="w-[45px] h-[45px] border-green-500 border-2 max-w-[45px] p-[2px] rounded-full" alt="" src="http://localhost:5173/images/user.png" />
+                                    <div className="w-[10px] h-[10px] bg-green-500 rounded-full absolute right-0 bottom-0">
+                                    </div>
                                     </div>
                                     <h2 className="text-base text-white font-semibold">{currentCustomer.name}</h2>
                                 </div>
@@ -132,7 +130,7 @@ const SellerToCustomer = () => {
                         </div>
 
                         <div className="py-4">
-                            <div className="bg-[#475569] h-[calc(100vh-280px)] rounded-md p-3 overflow-y-auto">
+                            <div className="bg-gray-700 h-[calc(100vh-280px)] rounded-md p-3 overflow-y-auto">
                                 {
                                     customerId ? messages.map((m,i) => {
                                         if (m.senderId === customerId){
@@ -142,12 +140,10 @@ const SellerToCustomer = () => {
                                     <div>
                                             <img className="w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]" src="http://localhost:5173/images/user.png" alt=""/> 
                                         </div>
-                                    <div className="flex justify-center items-start flex-col w-full bg-red-500 shadow-lg shadow-red-500/50  text-white py-1 px-2 rounded-sm">
+                                    <div className="flex justify-center items-start flex-col w-full bg-red-600 shadow-lg shadow-red-500/50  text-white py-1 px-2 rounded-sm">
                                     
                                         <span>{m.message}</span>
                                         </div>
-                                        
-                                        
                                     </div>
                                 </div>
                                             )
@@ -169,11 +165,6 @@ const SellerToCustomer = () => {
                                         <span>Select Customers</span>
                                     </div>
                                 }
-
-                                
-
-                                
-                                
                             </div>
                         </div>
 

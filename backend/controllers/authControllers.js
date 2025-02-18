@@ -3,7 +3,6 @@ const { responseReture } = require('../utiles/response');
 const bcrypts = require("bcrypt");
 const { createToken } = require('../utiles/tokenCreate');
 const { response } = require('express');
-const { default: api } = require('../../dashboard/src/api/api');
 const sellerModel = require('../models/sellerModel');
 const sellerCustomerModel = require('../models/chat/sellerCustomerModel');
 const formidable = require('formidable');

@@ -24,7 +24,6 @@ export const get_seller_dashboard_data = createAsyncThunk(
         try {
             const {data} = await api.get('/seller/get-dashboard-data',{withCredentials: true})
             // localStorage.setItem('accessToken',data.token)
-            
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)

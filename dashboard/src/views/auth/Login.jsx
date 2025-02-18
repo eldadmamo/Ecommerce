@@ -19,7 +19,6 @@ const Login = () => {
     })
     
     const inputHandle = (e) => {
-        e.preventDefault();
         setState({
             ...state,
             [e.target.name]: e.target.value
@@ -70,6 +69,7 @@ const Login = () => {
                                 border-slate-400 bg-transparent rounded-md" type="text" name="password" 
                                 placeholder="password" id="password" required/>
                             </div>
+
                             <div className="flex items-center w-full gap-3 mb-3">
                             <input className="w-4 h-4 text-blue-600 overflow-hidden
                              bg-gray-200 rounded border-gray-300 focus:ring-blue-300
@@ -97,16 +97,16 @@ const Login = () => {
                                 <div className="w-[45%] bg-slate-700 h-[1px]"></div>
                             </div>
 
-                            <div className="flex justify-center items-center gap-3">
-                        <div className="w-[135px] h-[35px] flex rounded-md bg-orange-700 shadow-lg 
-                        hover:shadow-orange-700/50 justify-center cursor-pointer items-center overflow-hidden">
+                    <div className="flex justify-center items-center gap-3">
+                            <div className="w-[135px] h-[35px] flex rounded-md bg-orange-700 shadow-lg 
+                            hover:shadow-orange-700/50 justify-center cursor-pointer items-center overflow-hidden">
                             <span><FaGoogle/></span>
                         </div>
 
-                        <div className="w-[135px] h-[35px] flex rounded-md bg-blue-700 shadow-lg 
+                         <div className="w-[135px] h-[35px] flex rounded-md bg-blue-700 shadow-lg 
                         hover:shadow-blue-700/50 justify-center cursor-pointer items-center overflow-hidden">
                             <span><FaFacebook/></span>
-                        </div>
+                         </div>
                     </div>
                         </form>
                      </div>

@@ -10,5 +10,4 @@ router.put('/category-update/:id', authMiddleware, categoryController.update_cat
 
 router.delete('/category/:id', categoryController.deleteCategory)
 
-
 module.exports = router;

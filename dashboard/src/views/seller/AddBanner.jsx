@@ -63,75 +63,68 @@ const AddBanner = () => {
     }
 
     return (
-        <div className='px-2 lg:px-7 pt-5'>
-           <h1 className='text-[#000000] font-semibold text-lg mb-3'>
-            Add Banner
-           </h1>
-           <div className='w-full p-4 bg-[#6a5fdf] rounded-md'>
-
-
-            {
-                !banner && <div>
-            <form onSubmit={add}>
-                <div className='mb-4'>
-                    <label className='flex justify-center items-center flex-col h-[180px] cursor-pointer border border-dashed hover:border-red-500 w-full text-white' htmlFor='image'>
-                        <span className='text-4xl'><FaRegImage/></span>
-                        <span>Select Banner Image</span>
-                    </label>
-                    <input required onChange={imageHandle} className='hidden' type='file' id='image'/>
-                </div>
-
+        <div className='px-4 lg:px-8 pt-6'>
+            <h1 className='text-gray-800 font-semibold text-xl mb-4'>
+                Add Banner
+            </h1>
+            <div className='w-full p-6 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-lg shadow-xl'>
                 {
-                    imageShow && <div className='mb-4'>
-                        <img className='w-full h-[300px]' src={imageShow} alt='' />
+                    !banner && <div>
+                        <form onSubmit={add}>
+                            <div className='mb-5'>
+                                <label className='flex justify-center items-center flex-col h-[180px] cursor-pointer border-4 border-dashed border-gray-300 hover:border-yellow-500 w-full text-white rounded-lg'>
+                                    <span className='text-5xl'><FaRegImage/></span>
+                                    <span>Select Banner Image</span>
+                                </label>
+                                <input required onChange={imageHandle} className='hidden' type='file' id='image'/>
+                            </div>
+
+                            {
+                                imageShow && <div className='mb-5'>
+                                    <img className='w-full h-[300px] object-cover rounded-lg' src={imageShow} alt='' />
+                                </div>
+                            }
+
+                            <button disabled={loader ? true : false} className="bg-yellow-500 w-[280px] hover:shadow-lg hover:shadow-yellow-300 text-white font-semibold rounded-lg px-7 py-3 mb-4">
+                                {
+                                   loader ? <PropagateLoader color="#fff" cssOverride={overrideStyle}/> :  'Add Banner'
+                                }
+                            </button>
+                        </form>
                     </div>
                 }
 
-                <button disabled={loader ? true : false} className="bg-red-500 w-[280px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
-                    {
-                    loader ? <PropagateLoader color="#fff" cssOverride={overrideStyle}/>:  'Add Banner'
-                    }
-                </button>
-            </form>
-
-                </div>
-            }
-
-            {
-               banner &&  <div>
                 {
-                    <div className='mb-4'>
-                    <img className='w-full h-[300px]' src={banner.banner} alt='' />
-                   </div>
-                }
-                <form onSubmit={update}>
-                <div className='mb-4'>
-                    <label className='flex justify-center items-center flex-col h-[180px] cursor-pointer border border-dashed hover:border-red-500 w-full text-white' htmlFor='image'>
-                        <span className='text-4xl'><FaRegImage/></span>
-                        <span>Select Banner Image</span>
-                    </label>
-                    <input required onChange={imageHandle} className='hidden' type='file' id='image'/>
-                </div>
+                    banner &&  <div>
+                        {
+                            <div className='mb-5'>
+                                <img className='w-full h-[300px] object-cover rounded-lg' src={banner.banner} alt='' />
+                            </div>
+                        }
+                        <form onSubmit={update}>
+                            <div className='mb-5'>
+                                <label className='flex justify-center items-center flex-col h-[180px] cursor-pointer border-4 border-dashed border-gray-300 hover:border-yellow-500 w-full text-white rounded-lg'>
+                                    <span className='text-5xl'><FaRegImage/></span>
+                                    <span>Select Banner Image</span>
+                                </label>
+                                <input required onChange={imageHandle} className='hidden' type='file' id='image'/>
+                            </div>
 
-                {
-                    imageShow && <div className='mb-4'>
-                        <img className='w-full h-[300px]' src={imageShow} alt='' />
+                            {
+                                imageShow && <div className='mb-5'>
+                                    <img className='w-full h-[300px] object-cover rounded-lg' src={imageShow} alt='' />
+                                </div>
+                            }
+
+                            <button disabled={loader ? true : false} className="bg-yellow-500 w-[280px] hover:shadow-lg hover:shadow-yellow-300 text-white font-semibold rounded-lg px-7 py-3 mb-4">
+                                {
+                                    loader ? <PropagateLoader color="#fff" cssOverride={overrideStyle}/> :  'Update Banner'
+                                }
+                            </button>
+                        </form>
                     </div>
                 }
-
-                <button disabled={loader ? true : false} className="bg-red-500 w-[280px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3">
-                    {
-                    loader ? <PropagateLoader color="#fff" cssOverride={overrideStyle}/>:  'Update Banner'
-                    }
-                </button>
-            </form>
-               </div>
-            }
-
-
-            
-                
-           </div>
+            </div>
         </div>
     );
 };

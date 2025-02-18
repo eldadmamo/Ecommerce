@@ -39,7 +39,7 @@ const CategoryShop = () => {
 
     useEffect(()=> {
         dispatch(price_range_product())
-    })
+    },[])
 
     useEffect(()=> {
         setState({
@@ -59,13 +59,13 @@ const CategoryShop = () => {
     // const [imageShow, setImage] = useState('')
 
     // const [category, setCategory] = useState('')
-    const queryCategory = (e,value) => {
-        if(e.target.checked) {
-            setCategory(value)
-        } else {
-            setCategory('')
-        }
-    }
+    // const queryCategory = (e,value) => {
+    //     if(e.target.checked) {
+    //         setCategory(value)
+    //     } else {
+    //         setCategory('')
+    //     }
+    // }
 
     useEffect(()=> {
         dispatch(
@@ -123,14 +123,6 @@ const CategoryShop = () => {
             <div className='w-full flex flex-wrap'>
             <div className={`w-3/12 md-lg:w-4/12 md:w-full pr-8 ${filter ? 'md:h-0 md:overflow-hidden md:mb-6': 'md:h-auto md:overflow-auto md:mb-0'}`}>
                 <h2 className='text-3xl font-bold mb-3 text-slate-600'>Category </h2>
-                <div className='py-2'>
-                    {categorys.map((c,i) => 
-                        <div key={i} className='flex justify-start items-center gap-2 py-1'>
-                            <input checked={category === c.name ? true: false} onChange={(e) => queryCategory(e,c.name)} type='checkbox' id={c.name} />
-                            <label className='text-slate-600 block cursor-pointer' htmlFor={c.name}>{c.name}</label>
-                        </div>
-                    )}
-                </div>
 
 
                 <div className='py-2 flex flex-col gap-5'>

@@ -143,7 +143,7 @@ class productController{
                         responseReture(res,404,{error: error.message})
                     }
                 } catch(error){
-
+                    responseReture(res, 404,{ error : error.message })
                 }
             }
         })

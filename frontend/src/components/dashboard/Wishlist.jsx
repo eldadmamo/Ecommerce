@@ -16,7 +16,7 @@ const Wishlist = () => {
 
     useEffect(()=> {
         dispatch(get_wishlist_products(userInfo.id))
-    },[])
+    })
 
     useEffect(()=> {
         if(successMessage){
@@ -50,6 +50,7 @@ const Wishlist = () => {
                             <RiShoppingCartLine />
                         </li>
                     </ul>
+
                 </div>
                 <div className='py-3 text-slate-600 px-2'>
                     <h2 className='font-bold'>{p.name}</h2>

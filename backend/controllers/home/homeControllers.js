@@ -33,7 +33,7 @@ class homeControllers {
                 categorys
             })
         } catch (error) {
-            console.log(error.message)
+            console.log(error)
         }
     }
 
@@ -77,8 +77,8 @@ class homeControllers {
     price_range_product = async (req,res) => {
         try{
             const priceRange = {
-                low:0,
-                high:0,
+                low: 0,
+                high: 0,
             }
             const products = await productModel.find({}).limit(9).sort({
                 createdAt: -1 
@@ -103,7 +103,7 @@ class homeControllers {
     }
 
     query_products = async (req,res) => {
-        const parPage = 6
+        const parPage = 12
         req.query.parPage = parPage 
         
         try{

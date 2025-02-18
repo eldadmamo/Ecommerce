@@ -8,19 +8,22 @@ class queryProducts {
     }
 
     categoryQuery = () => {
-        this.products = this.query.category ? this.products.filter(c => c.category === this.query.category) : this.products
+        this.products = this.query.category ? 
+        this.products.filter(c => c.category === this.query.category) : 
+        this.products
         return this
     }
 
     ratingQuery = () => {
-        this.products = this.query.rating ? this.products.filter((c) => parseInt(this.query.rating) <= c.rating && c.rating < parseInt(this.query.rating) + 1): this.products
+        this.products = this.query.rating ? 
+        this.products.filter((c) => parseInt(this.query.rating) <= c.rating && c.rating < parseInt(this.query.rating) + 1):
+        this.products
         return this
     }
 
     searchQuery = () => {
-        this.products = this.query.searchValue ? this.products.filter(p => p.
-            name.toUpperCase().indexOf(this.query.searchValue.toUpperCase()) > 
-            -1) : this.products
+        this.products = this.query.searchValue ? 
+        this.products.filter(p => p.name.toUpperCase().indexOf(this.query.searchValue.toUpperCase()) > -1) : this.products
         return this
     }
 
@@ -60,7 +63,7 @@ class queryProducts {
     limit = () => {
         let temp = []
         if(this.products.length > this.query.parPage){
-            for (let i=0; i < array.length; i++){
+            for (let i=0; i < this.query.parPage; i++){
                 temp.push(this.products[i])
             }
         } else {

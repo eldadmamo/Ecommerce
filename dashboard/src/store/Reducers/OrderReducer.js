@@ -93,6 +93,33 @@ export const seller_order_status_update = createAsyncThunk(
         }
     }
 )
+
+export const decreaseProductStock = createAsyncThunk(
+    'products/decrease_stock',
+    async({ productId, quantity }, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            // API call pour diminuer le stock d'un produit
+            const { data } = await api.put(`/product/${productId}/decrease-stock`, { quantity }, { withCredentials: true });
+            return fulfillWithValue(data);
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
+export const increaseProductStock = createAsyncThunk(
+    'products/increase_stock',
+    async({ productId, quantity }, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            // API call pour diminuer le stock d'un produit
+            const { data } = await api.put(`/product/${productId}/increase-stock`, { quantity }, { withCredentials: true });
+            return fulfillWithValue(data);
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
  
 export const OrderReducer = createSlice({
     name: 'order',
@@ -144,6 +171,18 @@ export const OrderReducer = createSlice({
         .addCase(seller_order_status_update.fulfilled, (state, { payload }) => {
             state.successMessage = payload.message;
         })
+        .addCase(decreaseProductStock.fulfilled, (state, { payload }) => {
+            state.successMessage = payload.message;
+        })
+        .addCase(decreaseProductStock.rejected, (state, { payload }) => {
+            state.errorMessage = payload.message;
+        })
+        .addCase(increaseProductStock.fulfilled, (state, { payload }) => {
+            state.successMessage = payload.message;
+        })
+        .addCase(increaseProductStock.rejected, (state, { payload }) => {
+            state.errorMessage = payload.message;
+        });
     }
 
 })

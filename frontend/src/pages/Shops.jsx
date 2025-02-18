@@ -35,7 +35,7 @@ const Shops = () => {
 
     useEffect(()=> {
         dispatch(price_range_product())
-    })
+    },[])
 
     useEffect(()=> {
         setState({

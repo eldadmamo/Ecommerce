@@ -7,7 +7,6 @@ const OrderDetails = () => {
 
     const {orderId} = useParams()
     const dispatch = useDispatch()
-    const navigate = useNavigate()
     const {userInfo} = useSelector(state => state.auth)
     const {myOrder} = useSelector(state => state.order)
 
@@ -29,7 +28,8 @@ const OrderDetails = () => {
                         <span className='text-slate-600 text-sm'>
                             {myOrder.shippingInfo?.address},
                             {myOrder.shippingInfo?.province},
-                            {myOrder.shippingInfo?.city}
+                            {myOrder.shippingInfo?.city},
+                            {myOrder.shippingInfo?.area}
                             </span>
                     </p>
                     <p className='text-slate-600 text-md font-semibold'>

@@ -97,148 +97,135 @@ const Payments = () => {
 
     return (
         <div className="px-2 lg:px-7 py-5">
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-7 mb-5" >
-            
-                            <div className="flex justify-between items-center p-5 bg-[#fae8e8] rounded-md gap-3">
-                                <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
-                                    <h2 className="text-2xl font-bold">${totalAmount}</h2>
-                                    <span className="text-sm font-bold">Total Sales</span>
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-7 mb-5">
+                <div className="flex justify-between items-center p-5 bg-[#fcd34d] rounded-md gap-3">
+                    <div className="flex flex-col justify-start items-start text-[#4b5563]">
+                        <h2 className="text-2xl font-bold">${totalAmount}</h2>
+                        <span className="text-sm font-bold">Total Sales</span>
+                    </div>
+
+                    <div className="w-[40px] h-[47px] rounded-full bg-[#f97316] flex justify-center items-center text-xl">
+                        <MdCurrencyExchange className="text-[#fcd34d] shadow-lg" />
+                    </div>
+                </div>
+
+                <div className="flex justify-between items-center p-5 bg-[#a7f3d0] rounded-md gap-3">
+                    <div className="flex flex-col justify-start items-start text-[#4b5563]">
+                        <h2 className="text-2xl font-bold">${availableAmount}</h2>
+                        <span className="text-sm font-bold">Available Amount</span>
+                    </div>
+
+                    <div className="w-[40px] h-[47px] rounded-full bg-[#16a34a] flex justify-center items-center text-xl">
+                        <MdCurrencyExchange className="text-[#fcd34d] shadow-lg" />
+                    </div>
+                </div>
+
+                <div className="flex justify-between items-center p-5 bg-[#c7d2fe] rounded-md gap-3">
+                    <div className="flex flex-col justify-start items-start text-[#4b5563]">
+                        <h2 className="text-2xl font-bold">${withdrawAmount}</h2>
+                        <span className="text-sm font-bold">WithDrawal Amount</span>
+                    </div>
+
+                    <div className="w-[40px] h-[47px] rounded-full bg-[#6366f1] flex justify-center items-center text-xl">
+                        <MdCurrencyExchange className="text-[#fcd34d] shadow-lg" />
+                    </div>
+                </div>
+
+                <div className="flex justify-between items-center p-5 bg-[#e0f2fe] rounded-md gap-3">
+                    <div className="flex flex-col justify-start items-start text-[#4b5563]">
+                        <h2 className="text-2xl font-bold">${pendingAmount}</h2>
+                        <span className="text-sm font-bold">Pending Amount</span>
+                    </div>
+
+                    <div className="w-[40px] h-[47px] rounded-full bg-[#3b82f6] flex justify-center items-center text-xl">
+                        <MdCurrencyExchange className="text-[#fcd34d] shadow-lg" />
+                    </div>
+                </div>
+            </div>
+
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 pb-4">
+                <div className="bg-[#7c3aed] text-[#f3f4f6] rounded-md p-5">
+                    <h2 className="text-lg">Send Request</h2>
+                    <div className="pt-5 mb-5">
+                        <form onSubmit={sendRequest}>
+                            <div className="flex gap-3 flex-wrap">
+                                <input value={amount} onChange={(e) => setAmount(e.target.value)} min="0" type="number" className="px-4 py-2 md:w-[75%] focus:border-indigo-500 outline-none bg-[#7c3aed] border border-slate-700 rounded-md text-[#f3f4f6]" name="amount" />
+                                <button disabled={loader} className="bg-[#dc2626] hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2">{loader ? 'loading..' : 'Submit'}</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h2 className="text-lg pb-4">Pending Request</h2>
+                        <div className="w-full overflow-x-auto">
+                            <div className="flex bg-[#a7b0f9] uppercase text-xs font-semibold min-w-[340px] rounded-md">
+                                <div className="w-[25%] p-2">
+                                    No
                                 </div>
-            
-                                <div className="w-[40px] h-[47px] rounded-full bg-[#fa0305] flex justify-center items-center text-xl">
-                                    <MdCurrencyExchange className="text-[#fae8e8] shadow-lg"/>
+                                <div className="w-[25%] p-2">
+                                    Amount
+                                </div>
+                                <div className="w-[25%] p-2">
+                                    Status
+                                </div>
+                                <div className="w-[25%] p-2">
+                                    Date
                                 </div>
                             </div>
-            
-                            <div className="flex justify-between items-center p-5 bg-[#fde2ff] rounded-md gap-3">
-                                <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
-                                    <h2 className="text-2xl font-bold">${availableAmount}</h2>
-                                    <span className="text-sm font-bold">Available Amount</span>
+                            {
+                                <List
+                                    style={{ minWidth: '340px' }}
+                                    className="List"
+                                    height={350}
+                                    itemCount={pendingWithdraws.length}
+                                    itemSize={35}
+                                    outerElementType={outerElementType}
+                                >
+                                    {Row}
+                                </List>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+
+                <div className="bg-[#7c3aed] text-[#f3f4f6] rounded-md p-5">
+                    <div>
+                        <h2 className="text-lg pb-4">Success Withdrawal</h2>
+                        <div className="w-full overflow-x-auto">
+                            <div className="flex bg-[#a7b0f9] uppercase text-xs font-semibold min-w-[340px] rounded-md">
+                                <div className="w-[25%] p-2">
+                                    No
                                 </div>
-            
-                                <div className="w-[40px] h-[47px] rounded-full bg-[#760077] flex justify-center items-center text-xl">
-                                    <MdCurrencyExchange className="text-[#fae8e8] shadow-lg"/>
+                                <div className="w-[25%] p-2">
+                                    Amount
+                                </div>
+                                <div className="w-[25%] p-2">
+                                    Status
+                                </div>
+                                <div className="w-[25%] p-2">
+                                    Date
                                 </div>
                             </div>
-            
-                            <div className="flex justify-between items-center p-5 bg-[#e9feea] rounded-md gap-3">
-                                <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
-                                    <h2 className="text-2xl font-bold">${withdrawAmount}</h2>
-                                    <span className="text-sm font-bold">WithDrawal Amount</span>
-                                </div>
-            
-                                <div className="w-[40px] h-[47px] rounded-full bg-[#038000] flex justify-center items-center text-xl">
-                                    <MdCurrencyExchange className="text-[#fae8e8] shadow-lg"/>
-                                </div>
-                            </div>
-            
-                            <div className="flex justify-between items-center p-5 bg-[#ecebff] rounded-md gap-3">
-                                <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
-                                    <h2 className="text-2xl font-bold">${pendingAmount}</h2>
-                                    <span className="text-sm font-bold">Pending Amount</span>
-                                </div>
-            
-                                <div className="w-[40px] h-[47px] rounded-full bg-[#0200f8] flex justify-center items-center text-xl">
-                                    <MdCurrencyExchange className="text-[#fae8e8] shadow-lg"/>
-                                </div>
-                            </div>
-                             
+                            {
+                                <List
+                                    style={{ minWidth: '340px' }}
+                                    className="List"
+                                    height={350}
+                                    itemCount={successWithdraws.length}
+                                    itemSize={35}
+                                    outerElementType={outerElementType}
+                                >
+                                    {Rows}
+                                </List>
+                            }
                         </div>
 
-                        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 pb-4">
-                            <div className="bg-[#6a5fdf] text-[#d0d2d6] rounded-md p-5">
-                                <h2 className="text-lg">Send Request</h2>
-                                <div className="pt-5 mb-5">
-                                    <form onSubmit={sendRequest}>
-                                        <div className="flex gap-3 flex-wrap">
-                                            <input value={amount} onChange={(e) => setAmount(e.target.value)} min="0" type="number" className="px-4 py-2 md:w-[75%] focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]" name="amount"/>
-                                            <button disabled={loader} className="bg-red-500  hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2">{loader ?  'loading..': 'Submit'}</button>
-                                        </div>
-                                    </form>
-                                </div>
+                    </div>
 
-                                <div>
-                                    <h2 className="text-lg pb-4">Pending Request</h2>
-                                    <div className="w-full overflow-x-auto">
-                                                        <div className="flex bg-[#a7a3de] uppercase text-xs font-semibold min-w-[340px] rounded-md">
-                                                            <div className="w-[25%] p-2">
-                                                               No
-                                                            </div>
-                                                            <div className="w-[25%] p-2">
-                                                               Amount
-                                                            </div>
-                                                            <div className="w-[25%] p-2">
-                                                               Status
-                                                            </div>
-                                                            <div className="w-[25%] p-2">
-                                                              Date
-                                                            </div> 
-                                                        </div>
-                                                        {
-                                                            <List
-                                                            style={{minWidth: '340px'}}
-                                                            className="List"
-                                                            height={350}
-                                                            itemCount={pendingWithdraws.length}
-                                                            itemSize={35}
-                                                            outerElementType={outerElementType}
-                                                            >
-                                                                {Row} 
-                                                            </List>
-                                                        }
-                                                    </div>
-                                   
+                </div>
 
-                                </div>
-
-                            
-                            </div>
-
-                            <div className="bg-[#6a5fdf] text-[#d0d2d6] rounded-md p-5">
-                                
-                                <div>
-                                    <h2 className="text-lg pb-4">Success Withdrawal</h2>
-                                    <div className="w-full overflow-x-auto">
-                                                        <div className="flex bg-[#a7a3de] uppercase text-xs font-semibold min-w-[340px] rounded-md">
-                                                            <div className="w-[25%] p-2">
-                                                               No
-                                                            </div>
-                                                            <div className="w-[25%] p-2">
-                                                               Amount
-                                                            </div>
-                                                            <div className="w-[25%] p-2">
-                                                               Status
-                                                            </div>
-                                                            <div className="w-[25%] p-2">
-                                                              Date
-                                                            </div> 
-                                                        </div>
-                                                        {
-                                                            <List
-                                                            style={{minWidth: '340px'}}
-                                                            className="List"
-                                                            height={350}
-                                                            itemCount={successWithdraws.length}
-                                                            itemSize={35}
-                                                            outerElementType={outerElementType}
-                                                            >
-                                                                {Rows} 
-                                                            </List>
-                                                        }
-                                                    </div>
-                                   
-
-                                </div>
-
-                            
-                            </div>
-
-                            
-
-                        </div>
-
-                        
-
+            </div>
         </div>
     );
 };

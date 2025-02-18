@@ -28,7 +28,7 @@ class sellerController {
         try{
             const seller = await sellerModel.findById(sellerId)
             responseReture(res,200, {seller})
-        } catch(e){
+        } catch(error){
             responseReture(res, 500, {error: error.message})
         }
     }
@@ -79,7 +79,7 @@ class sellerController {
     }
 
     get_deactive_sellers = async(req,res) => {
-        let {page,searchValue,parPage} = req.query
+        let {page,searchValue,parPage} = req.query;
         page = parseInt(page)
         parPage = parseInt(parPage)
 

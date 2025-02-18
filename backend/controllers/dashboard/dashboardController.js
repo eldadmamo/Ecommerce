@@ -28,7 +28,7 @@ class dashboardController{
          const totalOrder = await customerOrder.find({}).countDocuments()
          const totalSeller = await sellerModel.find({}).countDocuments()
          const messages = await adminSellerMessage.find({}).limit(3)
-         const recentOrders = await customerOrder.find({})
+         const recentOrders = await customerOrder.find({}).limit(5)
         //  console.log(recentOrders)
          responseReture(res, 200, {
             totalProduct,

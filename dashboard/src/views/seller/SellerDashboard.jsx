@@ -87,47 +87,47 @@ const SellerDashboard = () => {
 
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-7">
 
-                <div className="flex justify-between items-center p-5 bg-[#fae8e8] rounded-md gap-3">
-                    <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
+                <div className="flex justify-between items-center p-5 bg-gradient-to-r from-[#fbc2eb] to-[#a18cd1] rounded-md shadow-md gap-3">
+                    <div className="flex flex-col justify-start items-start text-[#4B5563]">
                         <h2 className="text-3xl font-bold">${totalSale}</h2>
                         <span className="text-md font-medium">Total Sales</span>
                     </div>
 
-                    <div className="w-[40px] h-[47px] rounded-full bg-[#fa0305] flex justify-center items-center text-xl">
-                        <MdCurrencyExchange className="text-[#fae8e8] shadow-lg"/>
+                    <div className="w-[40px] h-[47px] rounded-full bg-[#7C3AED] flex justify-center items-center text-xl">
+                        <MdCurrencyExchange className="text-[#F3E8FF] shadow-lg"/>
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center p-5 bg-[#fde2ff] rounded-md gap-3">
-                    <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
+                <div className="flex justify-between items-center p-5 bg-gradient-to-r from-[#ff9a9e] to-[#fad0c4] rounded-md shadow-md gap-3">
+                    <div className="flex flex-col justify-start items-start text-[#4B5563]">
                         <h2 className="text-3xl font-bold">{totalProduct}</h2>
                         <span className="text-md font-medium">Products</span>
                     </div>
 
-                    <div className="w-[40px] h-[47px] rounded-full bg-[#760077] flex justify-center items-center text-xl">
-                        <MdCurrencyExchange className="text-[#fae8e8] shadow-lg"/>
+                    <div className="w-[40px] h-[47px] rounded-full bg-[#00ACC1] flex justify-center items-center text-xl">
+                        <MdCurrencyExchange className="text-[#E0F7FA] shadow-lg"/>
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center p-5 bg-[#e9feea] rounded-md gap-3">
-                    <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
+                <div className="flex justify-between items-center p-5 bg-[#E8F5E9] rounded-md gap-3">
+                    <div className="flex flex-col justify-start items-start text-[#4B5563]">
                         <h2 className="text-3xl font-bold">{totalOrder}</h2>
                         <span className="text-md font-medium">Orders</span>
                     </div>
 
-                    <div className="w-[40px] h-[47px] rounded-full bg-[#038000] flex justify-center items-center text-xl">
-                        <FaCartShopping className="text-[#fae8e8] shadow-lg"/>
+                    <div className="w-[40px] h-[47px] rounded-full bg-[#43A047] flex justify-center items-center text-xl">
+                        <FaCartShopping className="text-[#E8F5E9] shadow-lg"/>
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center p-5 bg-[#ecebff] rounded-md gap-3">
-                    <div className="flex flex-col justify-start items-start text-[#5c5a5a]">
+                <div className="flex justify-between items-center p-5 bg-[#E3F2FD] rounded-md gap-3">
+                    <div className="flex flex-col justify-start items-start text-[#4B5563]">
                         <h2 className="text-3xl font-bold">{totalPendingOrder}</h2>
                         <span className="text-md font-medium">Pending Orders</span>
                     </div>
 
-                    <div className="w-[40px] h-[47px] rounded-full bg-[#0200f8] flex justify-center items-center text-xl">
-                        <FaCartShopping className="text-[#fae8e8] shadow-lg"/>
+                    <div className="w-[40px] h-[47px] rounded-full bg-[#1E88E5] flex justify-center items-center text-xl">
+                        <FaCartShopping className="text-[#E3F2FD] shadow-lg"/>
                     </div>
                 </div>
                  
@@ -135,28 +135,28 @@ const SellerDashboard = () => {
 
             <div className="w-full flex flex-wrap mt-7">
                 <div className="w-full lg:w-7/12 lg:pr-3">
-                <div className="w-full bg-[#6a5fdf] p-4 rounded-md">
+                <div className="w-full bg-[#4F46E5] p-4 rounded-md">
                     <Chart options={state.options} series={state.series} type="bar" height={400}/>
                 </div>
                 </div>
 
         <div className="w-full lg:w-5/12 lg:pl-4 mt-6 lg:mt-0">
-                <div className="w-full bg-[#5a5fdf] p-4 rounded-md text-[#d0d2d6]">
+                <div className="w-full bg-[#4F46E5] p-4 rounded-md text-[#D1D5DB]">
                     <div className="flex justify-between items-center">
-                        <h2 className="font-semibold text-lg text-[#d0d2d6] 
+                        <h2 className="font-semibold text-lg text-[#D1D5DB] 
                         pb-3">Recent Customers Message</h2>
-                        <Link className="font-semibold text-sm text-[#d0d2d6]
+                        <Link className="font-semibold text-sm text-[#D1D5DB]
                         ">View All</Link>
             </div>
 
-                <div className="flex flex-col gap-2 pt-6 text-[#d0d2d6]">
+                <div className="flex flex-col gap-2 pt-6 text-[#D1D5DB]">
                     <ol className="relative border-1 border-slate-600 ml-4">
 
 
             {
              recentMessage.map((m,i)=> 
                 <li className="mb-3 ml-6">
-                    <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-[#4c7fe2] rounded-full z-10">
+                    <div className="flex absolute -left-5 shadow-lg justify-center items-center w-10 h-10 p-[6px] bg-[#4F46E5] rounded-full z-10">
                     {
                     m.sellerId === userInfo._id ? 
                     <img className="w-full rounded-full h-full shadow-lg" src={userInfo.image} alt=""/>                            
@@ -187,15 +187,15 @@ const SellerDashboard = () => {
 
             </div>
 
-            <div className="w-full p-4 bg-[#6a5fdf] rounded-md mt-6">
+            <div className="w-full p-4 bg-[#4F46E5] rounded-md mt-6">
                 <div className="flex justify-between items-center">
-                    <h2 className="font-semibold text-lg text-[#d0d2d6] pb-3
+                    <h2 className="font-semibold text-lg text-[#D1D5DB] pb-3
                     ">Recent Orders</h2>
-                    <Link className="font-semibold text-sm text-[#]">View All</Link>
+                    <Link className="font-semibold text-sm text-[#D1D5DB]">View All</Link>
                 </div>
                 <div className="relative overflow-x-auto">
-                    <table className="w-full text-sm text-left text-[#d0d2d6] ">
-                        <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
+                    <table className="w-full text-sm text-left text-[#D1D5DB] ">
+                        <thead className="text-sm text-[#D1D5DB] uppercase border-b border-slate-700">
                         <tr>
                             <th scope="col" className="py-3 px-4">Order Id</th>
                             <th scope="col" className="py-3 px-4">Price</th>
@@ -209,13 +209,12 @@ const SellerDashboard = () => {
                            {
                            recentOrder.map((d,i) => 
                            <tr key={i}>
-                            <td scope="row" className="py-3 px-4 font-medium whitespace-nowrap">{d._id}</td>
+                            <td scope="row" className="py-3 px-4 font-medium whitespace-nowrap">#{d._id}</td>
                             <td scope="row" className="py-3 px-4 font-medium whitespace-nowrap">${d.price}</td>
                             <td scope="row" className="py-3 px-4 font-medium whitespace-nowrap">{d.payment_status}</td>
                             <td scope="row" className="py-3 px-4 font-medium whitespace-nowrap">{d.delivery_status}</td>
                             <td scope="row" className="py-3 px-4 font-medium whitespace-nowrap">
                                 <Link to={`/seller/dashboard/order/details/${d._id}`}>View</Link></td>
-                            
                             </tr>
                            )
                            }                       

@@ -22,7 +22,6 @@ const Register = () => {
     });
 
     const inputHandle = (e) => {
-        e.preventDefault();
         setState({
             ...state,
             [e.target.name]: e.target.value
@@ -82,6 +81,8 @@ const Register = () => {
                         name="password" 
                         placeholder="password" id="password" required/>
                     </div>
+
+                    
                     <div className="flex items-center w-full gap-3 mb-3">
                     <input className="w-4 h-4 text-blue-600 overflow-hidden
                      bg-gray-200 rounded border-gray-300 focus:ring-blue-300
