@@ -3,10 +3,9 @@ The Multi-Vendor E-commerce Platform is a comprehensive web application designed
 
 Built using React.js for a dynamic and responsive front-end, the project incorporates powerful back-end technologies like Node.js and Express.js to handle server-side logic and API development. Data is managed efficiently with MongoDB, a NoSQL database suited for handling large-scale, real-time applications.
 
+[![Watch the video](https://img.youtube.com/vi/WX91BFW9z28/maxresdefault.jpg)](https://youtu.be/WX91BFW9z28)
 
-
-
-[![Video Title]](https://www.youtube.com/watch?v=WX91BFW9z28)
+### [Watch this video on YouTube](https://youtu.be/WX91BFW9z28)
 
 
 Key Features:
